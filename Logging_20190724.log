@@ -1,0 +1,226 @@
+2019-07-24 13:50:59,874 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 100 rows.
+2019-07-24 13:51:05,327 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 200 rows.
+2019-07-24 13:51:10,995 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 300 rows.
+2019-07-24 13:51:16,483 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 400 rows.
+2019-07-24 13:51:21,850 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 500 rows.
+2019-07-24 13:51:27,146 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 600 rows.
+2019-07-24 13:51:32,595 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 700 rows.
+2019-07-24 13:51:38,105 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 800 rows.
+2019-07-24 13:59:22,798 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 100 rows.
+2019-07-24 13:59:28,180 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 200 rows.
+2019-07-24 13:59:33,737 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 300 rows.
+2019-07-24 13:59:39,112 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 400 rows.
+2019-07-24 13:59:44,518 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 500 rows.
+2019-07-24 13:59:49,701 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 600 rows.
+2019-07-24 13:59:55,143 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 700 rows.
+2019-07-24 14:00:00,340 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 800 rows.
+2019-07-24 14:00:05,656 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 900 rows.
+2019-07-24 14:00:10,931 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 1000 rows.
+2019-07-24 14:00:16,284 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 1100 rows.
+2019-07-24 14:00:22,616 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 1200 rows.
+2019-07-24 14:00:28,076 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 1300 rows.
+2019-07-24 14:00:33,815 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 1400 rows.
+2019-07-24 14:00:39,206 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 1500 rows.
+2019-07-24 14:00:44,351 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 1600 rows.
+2019-07-24 14:00:49,776 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 1700 rows.
+2019-07-24 14:00:55,161 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 1800 rows.
+2019-07-24 14:01:00,861 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 1900 rows.
+2019-07-24 14:01:06,300 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 2000 rows.
+2019-07-24 14:01:11,878 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 2100 rows.
+2019-07-24 14:01:17,437 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 2200 rows.
+2019-07-24 14:01:22,789 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 2300 rows.
+2019-07-24 14:01:28,192 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 2400 rows.
+2019-07-24 14:01:33,719 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 2500 rows.
+2019-07-24 14:01:39,363 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 2600 rows.
+2019-07-24 14:01:44,692 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 2700 rows.
+2019-07-24 14:01:50,153 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 2800 rows.
+2019-07-24 14:01:55,423 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 2900 rows.
+2019-07-24 14:02:01,057 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 3000 rows.
+2019-07-24 14:02:06,310 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 3100 rows.
+2019-07-24 14:02:11,710 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 3200 rows.
+2019-07-24 14:02:17,248 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 3300 rows.
+2019-07-24 14:02:22,784 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 3400 rows.
+2019-07-24 14:02:28,163 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 3500 rows.
+2019-07-24 14:02:33,459 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 3600 rows.
+2019-07-24 14:02:38,768 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 3700 rows.
+2019-07-24 14:02:43,984 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 3800 rows.
+2019-07-24 14:02:49,251 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 3900 rows.
+2019-07-24 14:02:54,666 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 4000 rows.
+2019-07-24 14:02:59,902 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 4100 rows.
+2019-07-24 14:03:05,124 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 4200 rows.
+2019-07-24 14:03:10,335 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 4300 rows.
+2019-07-24 14:03:15,692 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 4400 rows.
+2019-07-24 14:03:21,189 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 4500 rows.
+2019-07-24 14:03:26,442 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 4600 rows.
+2019-07-24 14:03:31,869 - MainThread SurveyDatabase.py:127 - insertIntoStagingTable() - INFO - Inserted 4700 rows.
+2019-07-24 14:03:36,734 - MainThread SurveyDatabase.py:130 - insertIntoStagingTable() - INFO - Inserted 4786 rows.
+2019-07-24 15:05:01,944 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 100 rows.
+2019-07-24 15:05:12,680 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 200 rows.
+2019-07-24 15:05:23,107 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 300 rows.
+2019-07-24 15:05:33,538 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 400 rows.
+2019-07-24 15:05:43,747 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 500 rows.
+2019-07-24 15:05:53,897 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 600 rows.
+2019-07-24 15:06:03,844 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 700 rows.
+2019-07-24 15:06:14,285 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 800 rows.
+2019-07-24 15:06:24,648 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 900 rows.
+2019-07-24 15:06:35,022 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 1000 rows.
+2019-07-24 15:06:45,132 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 1100 rows.
+2019-07-24 15:06:55,346 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 1200 rows.
+2019-07-24 15:07:05,763 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 1300 rows.
+2019-07-24 15:07:16,103 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 1400 rows.
+2019-07-24 15:07:26,160 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 1500 rows.
+2019-07-24 15:07:36,322 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 1600 rows.
+2019-07-24 15:07:46,521 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 1700 rows.
+2019-07-24 15:07:57,018 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 1800 rows.
+2019-07-24 15:08:07,366 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 1900 rows.
+2019-07-24 15:08:17,691 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 2000 rows.
+2019-07-24 15:08:27,967 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 2100 rows.
+2019-07-24 15:08:38,700 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 2200 rows.
+2019-07-24 15:08:48,838 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 2300 rows.
+2019-07-24 19:42:52,525 - MainThread Master.py:13 - <module>() - INFO - Master Started
+2019-07-24 19:42:53,196 - MainThread Master.py:26 - <module>() - INFO - Reading column mapping for file_2017 from the database
+2019-07-24 19:42:53,240 - MainThread Master.py:34 - <module>() - INFO - Setting header row to: 1
+2019-07-24 19:42:53,240 - MainThread Master.py:36 - <module>() - INFO - Reading in file format for file_2017
+2019-07-24 19:42:53,241 - MainThread Master.py:40 - <module>() - INFO - Reading in survey excel file from: C:\Users\WilliamAndrus\Datalere\Marc Beacom - Datalere_Team\Projects\Puget Sound Regional Council\Data Model\Example ETL for Household Survey Data\2017-pr2-2-person.xlsx
+2019-07-24 19:43:18,178 - MainThread Master.py:49 - <module>() - INFO - Dropping staging table for file_2017
+2019-07-24 19:43:18,264 - MainThread Master.py:52 - <module>() - INFO - Creating staging table for file_2017
+2019-07-24 19:43:18,369 - MainThread Master.py:55 - <module>() - INFO - Starting insertion of data into staging table...
+2019-07-24 19:43:29,032 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 100 rows.
+2019-07-24 19:43:39,794 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 200 rows.
+2019-07-24 19:43:50,794 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 300 rows.
+2019-07-24 19:44:01,740 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 400 rows.
+2019-07-24 19:44:12,131 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 500 rows.
+2019-07-24 19:44:22,530 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 600 rows.
+2019-07-24 19:44:33,519 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 700 rows.
+2019-07-24 19:44:46,754 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 800 rows.
+2019-07-24 19:44:59,007 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 900 rows.
+2019-07-24 19:45:09,660 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 1000 rows.
+2019-07-24 19:45:20,318 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 1100 rows.
+2019-07-24 19:45:31,177 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 1200 rows.
+2019-07-24 19:45:41,894 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 1300 rows.
+2019-07-24 19:45:52,504 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 1400 rows.
+2019-07-24 19:46:02,930 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 1500 rows.
+2019-07-24 19:46:13,431 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 1600 rows.
+2019-07-24 19:46:24,161 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 1700 rows.
+2019-07-24 19:46:35,213 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 1800 rows.
+2019-07-24 19:46:46,564 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 1900 rows.
+2019-07-24 19:46:57,215 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 2000 rows.
+2019-07-24 19:47:07,544 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 2100 rows.
+2019-07-24 19:47:18,166 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 2200 rows.
+2019-07-24 19:47:29,230 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 2300 rows.
+2019-07-24 19:47:40,337 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 2400 rows.
+2019-07-24 19:47:51,090 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 2500 rows.
+2019-07-24 19:48:01,879 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 2600 rows.
+2019-07-24 19:48:12,300 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 2700 rows.
+2019-07-24 19:48:23,271 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 2800 rows.
+2019-07-24 19:48:34,270 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 2900 rows.
+2019-07-24 19:48:44,979 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 3000 rows.
+2019-07-24 19:48:55,377 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 3100 rows.
+2019-07-24 19:49:06,372 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 3200 rows.
+2019-07-24 19:49:16,859 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 3300 rows.
+2019-07-24 19:49:27,414 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 3400 rows.
+2019-07-24 19:49:38,383 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 3500 rows.
+2019-07-24 19:49:48,964 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 3600 rows.
+2019-07-24 19:49:59,337 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 3700 rows.
+2019-07-24 19:50:09,742 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 3800 rows.
+2019-07-24 19:50:20,247 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 3900 rows.
+2019-07-24 19:50:30,721 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 4000 rows.
+2019-07-24 19:50:41,429 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 4100 rows.
+2019-07-24 19:50:51,723 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 4200 rows.
+2019-07-24 19:51:01,929 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 4300 rows.
+2019-07-24 19:51:12,412 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 4400 rows.
+2019-07-24 19:51:23,001 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 4500 rows.
+2019-07-24 19:51:34,034 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 4600 rows.
+2019-07-24 19:51:44,434 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 4700 rows.
+2019-07-24 19:51:54,812 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 4800 rows.
+2019-07-24 19:52:05,191 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 4900 rows.
+2019-07-24 19:52:15,660 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 5000 rows.
+2019-07-24 19:52:26,141 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 5100 rows.
+2019-07-24 19:52:36,633 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 5200 rows.
+2019-07-24 19:52:47,113 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 5300 rows.
+2019-07-24 19:52:57,534 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 5400 rows.
+2019-07-24 19:53:08,078 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 5500 rows.
+2019-07-24 19:53:18,738 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 5600 rows.
+2019-07-24 19:53:29,467 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 5700 rows.
+2019-07-24 19:53:39,975 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 5800 rows.
+2019-07-24 19:53:50,959 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 5900 rows.
+2019-07-24 19:54:01,810 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 6000 rows.
+2019-07-24 19:54:12,397 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 6100 rows.
+2019-07-24 19:54:22,628 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 6200 rows.
+2019-07-24 19:54:28,332 - MainThread SurveyDatabase.py:146 - insertIntoStagingTable() - INFO - Inserted 6254 rows.
+2019-07-24 19:54:28,333 - MainThread Master.py:62 - <module>() - INFO - Pulling in the mapping table
+2019-07-24 19:56:50,247 - MainThread Master.py:13 - <module>() - INFO - Master Started
+2019-07-24 19:56:50,863 - MainThread Master.py:26 - <module>() - INFO - Reading column mapping for file_2017 from the database
+2019-07-24 19:56:50,903 - MainThread Master.py:34 - <module>() - INFO - Setting header row to: 1
+2019-07-24 19:56:50,904 - MainThread Master.py:36 - <module>() - INFO - Reading in file format for file_2017
+2019-07-24 19:56:50,904 - MainThread Master.py:40 - <module>() - INFO - Reading in survey excel file from: C:\Users\WilliamAndrus\Datalere\Marc Beacom - Datalere_Team\Projects\Puget Sound Regional Council\Data Model\Example ETL for Household Survey Data\2017-pr2-2-person.xlsx
+2019-07-24 19:56:56,486 - MainThread Master.py:49 - <module>() - INFO - Dropping staging table for file_2017
+2019-07-24 19:56:56,600 - MainThread Master.py:52 - <module>() - INFO - Creating staging table for file_2017
+2019-07-24 19:56:56,701 - MainThread Master.py:55 - <module>() - INFO - Starting insertion of data into staging table...
+2019-07-24 19:57:07,328 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 100 rows.
+2019-07-24 19:57:17,841 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 200 rows.
+2019-07-24 19:57:28,284 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 300 rows.
+2019-07-24 19:57:38,970 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 400 rows.
+2019-07-24 19:57:49,560 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 500 rows.
+2019-07-24 19:58:00,162 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 600 rows.
+2019-07-24 19:58:10,635 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 700 rows.
+2019-07-24 19:58:21,768 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 800 rows.
+2019-07-24 19:58:32,081 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 900 rows.
+2019-07-24 19:58:42,948 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 1000 rows.
+2019-07-24 19:58:53,464 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 1100 rows.
+2019-07-24 19:59:04,064 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 1200 rows.
+2019-07-24 19:59:14,472 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 1300 rows.
+2019-07-24 19:59:24,683 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 1400 rows.
+2019-07-24 19:59:35,359 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 1500 rows.
+2019-07-24 19:59:45,642 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 1600 rows.
+2019-07-24 19:59:56,130 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 1700 rows.
+2019-07-24 20:00:06,291 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 1800 rows.
+2019-07-24 20:00:16,751 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 1900 rows.
+2019-07-24 20:00:27,211 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 2000 rows.
+2019-07-24 20:00:37,783 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 2100 rows.
+2019-07-24 20:00:48,591 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 2200 rows.
+2019-07-24 20:00:58,776 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 2300 rows.
+2019-07-24 20:01:08,985 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 2400 rows.
+2019-07-24 20:01:19,247 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 2500 rows.
+2019-07-24 20:01:29,559 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 2600 rows.
+2019-07-24 20:01:40,219 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 2700 rows.
+2019-07-24 20:01:50,491 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 2800 rows.
+2019-07-24 20:02:00,580 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 2900 rows.
+2019-07-24 20:02:10,906 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 3000 rows.
+2019-07-24 20:02:21,001 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 3100 rows.
+2019-07-24 20:02:31,299 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 3200 rows.
+2019-07-24 20:02:41,773 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 3300 rows.
+2019-07-24 20:02:52,176 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 3400 rows.
+2019-07-24 20:03:02,670 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 3500 rows.
+2019-07-24 20:03:12,803 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 3600 rows.
+2019-07-24 20:03:23,207 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 3700 rows.
+2019-07-24 20:03:33,790 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 3800 rows.
+2019-07-24 20:03:44,704 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 3900 rows.
+2019-07-24 20:03:55,347 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 4000 rows.
+2019-07-24 20:04:05,931 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 4100 rows.
+2019-07-24 20:04:16,395 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 4200 rows.
+2019-07-24 20:04:26,677 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 4300 rows.
+2019-07-24 20:04:37,584 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 4400 rows.
+2019-07-24 20:04:47,997 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 4500 rows.
+2019-07-24 20:04:58,383 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 4600 rows.
+2019-07-24 20:05:08,909 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 4700 rows.
+2019-07-24 20:05:19,182 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 4800 rows.
+2019-07-24 20:05:29,287 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 4900 rows.
+2019-07-24 20:05:39,786 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 5000 rows.
+2019-07-24 20:05:50,082 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 5100 rows.
+2019-07-24 20:06:00,083 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 5200 rows.
+2019-07-24 20:06:10,558 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 5300 rows.
+2019-07-24 20:06:21,301 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 5400 rows.
+2019-07-24 20:06:31,733 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 5500 rows.
+2019-07-24 20:06:42,868 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 5600 rows.
+2019-07-24 20:06:53,158 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 5700 rows.
+2019-07-24 20:07:03,389 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 5800 rows.
+2019-07-24 20:07:13,672 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 5900 rows.
+2019-07-24 20:07:24,415 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 6000 rows.
+2019-07-24 20:07:35,272 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 6100 rows.
+2019-07-24 20:07:45,439 - MainThread SurveyDatabase.py:143 - insertIntoStagingTable() - INFO - Inserted 6200 rows.
+2019-07-24 20:07:51,064 - MainThread SurveyDatabase.py:146 - insertIntoStagingTable() - INFO - Inserted 6254 rows.
+2019-07-24 20:07:51,064 - MainThread Master.py:62 - <module>() - INFO - Pulling in the mapping table
+2019-07-24 20:07:51,224 - MainThread Master.py:68 - <module>() - INFO - Renaming column to master names
+2019-07-24 20:07:51,242 - MainThread Master.py:71 - <module>() - INFO - Save results to excel
+2019-07-24 20:08:07,964 - MainThread Master.py:78 - <module>() - INFO - Master Ended
