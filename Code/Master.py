@@ -18,9 +18,28 @@ if __name__ == '__main__' :
             path = sys.argv[2]
             filename = sys.argv[3]
         else:
-            print("Send in 3 string arguements:  map_col, path, filename  or edit the launch.json file if debugging locally")
-            raise Exception('Missing arguements')
+            print("Send in 3 string arguments:  map_col, path, filename  or edit the launch.json file if debugging locally")
+            raise Exception('Missing arguments')
         
+
+
+        ##TODO: READ in code book.
+        #
+        #
+        #
+        #
+        #
+        #
+
+
+        ##TODO: Log to database
+        ##
+        ##
+        ##
+
+        ##TODO Make a file structure
+        ##
+
 
         with SurveyDatabase.surveyDatabase() as db:
             logger.info("Reading column mapping for " + map_col +" from the database")
@@ -65,9 +84,15 @@ if __name__ == '__main__' :
         logger.info("Renaming column to master names")
         sur = sur.rename(index=str, columns=mappingDict)
 
-        logger.info("Save results to excel")
-        sur.to_excel(map_col+"_output.xlsx")
+        #logger.info("Save results to excel")
+        #sur.to_excel(map_col+"_output.xlsx")
 
+        #TODO: Export to Database
+
+
+        #
+
+        #df.fillna(....)
 
     except Exception as e:
         logger.error(e.args[0])

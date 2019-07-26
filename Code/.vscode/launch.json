@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "args": ["file_2019","C:\\Users\\WilliamAndrus\\Datalere\\Marc Beacom - Datalere_Team\\Projects\\Puget Sound Regional Council\\Data Model\\Example ETL for Household Survey Data\\","2019-pr2-2-person"]
+            "args": ["file_2017","C:\\Users\\WilliamAndrus\\Datalere\\Marc Beacom - Datalere_Team\\Projects\\Puget Sound Regional Council\\Data Model\\Example ETL for Household Survey Data\\","2017-pr2-2-person.xlsx"]
         }
     ]
 }
