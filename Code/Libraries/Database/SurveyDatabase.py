@@ -4,8 +4,11 @@ A single localize file to handle basic database connections, calls, etc..
 #pip install pyodbc
 import pyodbc
 import logging
-import SurveyLogging
-import SurveyConfigReader
+import sys
+import os
+sys.path.append(os.path.abspath('./Code/')) #Allow internal testing
+from Libraries.Logging import SurveyLogging
+from Libraries.Configuration import SurveyConfigReader
 #pip install xlrd
 import pandas as pd
 
@@ -183,21 +186,21 @@ if __name__ == '__main__':
         #print('Starting map column logic')
         map_col = "file_2015"
         db.selectMapColumn(map_col)
-        db.dropStagingTable(map_col)
+        #db.dropStagingTable(map_col)
         #print('Ending map column logic')
 
 
-        path = "C:\\Users\\WilliamAndrus\\Datalere\\Marc Beacom - Datalere_Team\\Projects\\Puget Sound Regional Council\\Data Model\\Example ETL for Household Survey Data\\"
+        #path = "C:\\Users\\WilliamAndrus\\Datalere\\Marc Beacom - Datalere_Team\\Projects\\Puget Sound Regional Council\\Data Model\\Example ETL for Household Survey Data\\"
         #filename = "2017-pr2-2-person.xlsx"
-        filename = "2015-pr2-hhsurvey-person.xlsx"
-        header_row = 0
+        #filename = "2015-pr2-hhsurvey-person.xlsx"
+        #header_row = 0
 
         #print('Creating staging table')
         #sur = pd.read_excel(path + filename, index_col = None, header = header_row)
-        sur = pd.read_excel(path + filename, index_col=None, header=header_row)  
+        #sur = pd.read_excel(path + filename, index_col=None, header=header_row)  
 
-        db.createStagingTable(map_col,sur)
-        db.insertIntoStagingTable(map_col,sur)
+        #db.createStagingTable(map_col,sur)
+        #db.insertIntoStagingTable(map_col,sur)
         
         #mappingDF = db.pullMappingTable(map_col)
             

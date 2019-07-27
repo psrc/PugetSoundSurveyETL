@@ -1,9 +1,10 @@
-import logging
-import SurveyLogging
 import sys
-import SurveyDatabase
-import SurveyConfigReader
+import logging
 import pandas as pd
+from Libraries.Logging import SurveyLogging
+from Libraries.Database import SurveyDatabase
+from Libraries.Configuration import SurveyConfigReader
+
 
 
 if __name__ == '__main__' :
@@ -24,21 +25,11 @@ if __name__ == '__main__' :
 
 
         ##TODO: READ in code book.
+        # Fill data down
+        # df.fillna(....)
+        # populate table with 
+        # values, response text, data types, etc.... 
         #
-        #
-        #
-        #
-        #
-        #
-
-
-        ##TODO: Log to database
-        ##
-        ##
-        ##
-
-        ##TODO Make a file structure
-        ##
 
 
         with SurveyDatabase.surveyDatabase() as db:
@@ -73,7 +64,7 @@ if __name__ == '__main__' :
             logger.info("Starting insertion of data into staging table...")
             db.insertIntoStagingTable(map_col,sur)
 
-            #TODO: Loop to extract data types dynamically from the SQL target
+            
 
             logger.info("Pulling in the mapping table")
             mappingDF = db.pullMappingTable(map_col)
@@ -84,15 +75,13 @@ if __name__ == '__main__' :
         logger.info("Renaming column to master names")
         sur = sur.rename(index=str, columns=mappingDict)
 
+
+
+        #TODO: Export to Database
         #logger.info("Save results to excel")
         #sur.to_excel(map_col+"_output.xlsx")
 
-        #TODO: Export to Database
 
-
-        #
-
-        #df.fillna(....)
 
     except Exception as e:
         logger.error(e.args[0])
