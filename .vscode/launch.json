@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "args": ["file_2017","C:\\Users\\WilliamAndrus\\Datalere\\Marc Beacom - Datalere_Team\\Projects\\Puget Sound Regional Council\\Data Model\\Example ETL for Household Survey Data\\","2017-pr2-2-person.xlsx"]
+            "args": ["2015","C:\\Users\\WilliamAndrus\\Documents\\GitHub\\PugetSoundSurveyETL\\PersonData\\2015-pr2-hhsurvey-person.xlsx", "C:\\Users\\WilliamAndrus\\Documents\\GitHub\\PugetSoundSurveyETL\\CodeBooks\\2015-pr2-hhsurvey-Codebook.xlsx"]
         }
     ]
 }

@@ -169,6 +169,7 @@ class surveyDatabase():
             self.logger.error(e.args[0])
             raise
 
+
 """
 Used for testing logic
 """
