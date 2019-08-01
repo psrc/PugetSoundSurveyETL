@@ -118,9 +118,10 @@ if __name__ == '__main__' :
         #pull sub tables        
         studentDF = cbdf[(cbdf.Field == 'student') & (cbdf.Variable >= 0)]
         
-        #TODO: split out questions with studentind
+        #split out questions with studentind
         # IF: No, not a student => 'N'
         # ELSE: 'Y'
+        studentDF['studentind'] = studentDF.apply(lambda s: 'N' if s['Value'] == 'No, not a student' else 'Y',axis=1)
 
         #Join new columns into response
         rfdf = rfdf.join(studentDF.set_index('Variable'), on='resptype', how='left')
