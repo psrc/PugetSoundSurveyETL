@@ -101,32 +101,24 @@ if __name__ == '__main__' :
         resptypeDF = cbdf[(cbdf.Field == 'resptype') & (cbdf.Variable >= 0)]
         ageDF = cbdf[(cbdf.Field == 'age') & (cbdf.Variable >= 0)]
 
-        #pivot
-        #resptypeDF2 = resptypeDF.pivot(index='Variable', columns='Field', values='Value')
-        #ageDF2 = ageDF = ageDF.pivot(index='Variable', columns='Field', values='Value')
-
 
         #TODO: split out questions (eg. smartphone question)
-        #if year == "2015":
-        #    return
-        #elif year == "2017":
-        #    return
-        #elif year == "2019":
-        #    return
-        #else:
-        #    return
 
-        #TODO Join new columns into response
-
+        #Join new columns into response
+        rfdf = rfdf.join(resptypeDF.set_index('Variable'), on='resptype', how='left')
+        # Rename columns
+        rfdf = rfdf.rename(columns = {'Value':'respTypeValue','Field':'respTypeField','Variable':'respTypeVariable'})
+        # Drop column
+        rfdf = rfdf.drop('respTypeField', axis=1)
 
         #Create/Replace new tables
         with SurveyDatabase.surveyDatabase() as db:
             #Upload data to table before merge
             logger.info("Starting insertion of code book into staging table...")
-            db.createStagingTableFromDF(str(year)+"CodeBook", cbdf)
+            db.createStagingTableFromDF(cbdf,str(year)+"CodeBook")
 
             logger.info("Starting insertion of data into staging table...")
-            db.createStagingTableFromDF(map_col,rfdf)
+            db.createStagingTableFromDF(rfdf,'Survey_file_'+str(year))
 
 
         #ProcessMapping() #dependent on ProcessResponseFile
