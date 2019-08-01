@@ -93,23 +93,43 @@ if __name__ == '__main__' :
         cbdf = ProcessCodeBookFile()
         rfdf = ProcessResponseFile()
 
-        ################################
-        # Add columns to Response Table
-        ################################
 
+        #######################################################################################
+        #TODO: Create Function to do (Create SubTable => Join => Rename => Drop logic)   
+        # ParseColumn(ColumnName)
+        ########################################################################################
+
+        #
+        # rfdf
+        #
         #pull sub tables
         resptypeDF = cbdf[(cbdf.Field == 'resptype') & (cbdf.Variable >= 0)]
-        ageDF = cbdf[(cbdf.Field == 'age') & (cbdf.Variable >= 0)]
-
-
-        #TODO: split out questions (eg. smartphone question)
-
         #Join new columns into response
         rfdf = rfdf.join(resptypeDF.set_index('Variable'), on='resptype', how='left')
         # Rename columns
         rfdf = rfdf.rename(columns = {'Value':'respTypeValue','Field':'respTypeField','Variable':'respTypeVariable'})
         # Drop column
         rfdf = rfdf.drop('respTypeField', axis=1)
+
+        
+        #
+        # student
+        #
+        #pull sub tables        
+        studentDF = cbdf[(cbdf.Field == 'student') & (cbdf.Variable >= 0)]
+        
+        #TODO: split out questions with studentind
+        # IF: No, not a student => 'N'
+        # ELSE: 'Y'
+
+        #Join new columns into response
+        rfdf = rfdf.join(studentDF.set_index('Variable'), on='resptype', how='left')
+        # Rename columns
+        rfdf = rfdf.rename(columns = {'Value':'studentValue','Field':'studentField','Variable':'studentVariable'})
+        # Drop column
+        rfdf = rfdf.drop('studentField', axis=1)
+
+
 
         #Create/Replace new tables
         with SurveyDatabase.surveyDatabase() as db:
