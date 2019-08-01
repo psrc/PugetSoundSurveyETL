@@ -1,7 +1,6 @@
 import sys
 import logging
 import pandas as pd
-import sys
 import os
 from Libraries.Logging import SurveyLogging
 from Libraries.Database import SurveyDatabase
@@ -29,14 +28,8 @@ def ProcessResponseFile():
         else:
             raise Exception('Unknown Format Type')
 
-        logger.info("Dropping response staging table for " + str(year))
-        db.dropStagingTable(map_col)
+        return sur
 
-        logger.info("Creating response staging table for " + str(year))
-        db.createStagingTable(map_col,sur)
-
-        logger.info("Starting insertion of data into staging table...")
-        db.insertIntoStagingTable(map_col,sur)
 
     return True
 
@@ -50,24 +43,7 @@ def ProcessCodeBookFile():
         codebookDF = codebookDF.replace('Valid Values',pd.np.nan)
         codebookDF[['order','Field']] = codebookDF[['order','Field']].fillna(method='ffill')
 
-        #TODO: split out questions (eg. smartphone quetion)
-        #if year == "2015":
-        #    return
-        #elif year == "2017":
-        #    return
-        #elif year == "2019":
-        #    return
-        #else:
-        #    return
-
-        logger.info("Dropping code book staging table for " + str(year))
-        db.dropStagingTable(str(year)+"CodeBook")
-
-        logger.info("Creating code book staging table for " + str(year))
-        db.createStagingTable(str(year)+"CodeBook", codebookDF)
-
-        logger.info("Starting insertion of code book into staging table...")
-        db.insertIntoStagingTable(str(year)+"CodeBook", codebookDF)
+        return codebookDF[['Field','Variable','Value']]
 
     return True
 
@@ -82,7 +58,6 @@ def ProcessMapping():
         logger.info("Renaming column to master names")
         sur = sur.rename(index=str, columns=mappingDict)
     return True
-
 
 def ProcessDimTables():
     with SurveyDatabase.surveyDatabase() as db:
@@ -115,10 +90,46 @@ if __name__ == '__main__' :
         #initialize config reader to pull values
         config = SurveyConfigReader.surveyConfig()
 
-        if ProcessResponseFile():
-            ProcessMapping()
-        
-        ProcessCodeBookFile()
+        cbdf = ProcessCodeBookFile()
+        rfdf = ProcessResponseFile()
+
+        ################################
+        # Add columns to Response Table
+        ################################
+
+        #pull sub tables
+        resptypeDF = cbdf[(cbdf.Field == 'resptype') & (cbdf.Variable >= 0)]
+        ageDF = cbdf[(cbdf.Field == 'age') & (cbdf.Variable >= 0)]
+
+        #pivot
+        #resptypeDF2 = resptypeDF.pivot(index='Variable', columns='Field', values='Value')
+        #ageDF2 = ageDF = ageDF.pivot(index='Variable', columns='Field', values='Value')
+
+
+        #TODO: split out questions (eg. smartphone question)
+        #if year == "2015":
+        #    return
+        #elif year == "2017":
+        #    return
+        #elif year == "2019":
+        #    return
+        #else:
+        #    return
+
+        #TODO Join new columns into response
+
+
+        #Create/Replace new tables
+        with SurveyDatabase.surveyDatabase() as db:
+            #Upload data to table before merge
+            logger.info("Starting insertion of code book into staging table...")
+            db.createStagingTableFromDF(str(year)+"CodeBook", cbdf)
+
+            logger.info("Starting insertion of data into staging table...")
+            db.createStagingTableFromDF(map_col,rfdf)
+
+
+        #ProcessMapping() #dependent on ProcessResponseFile
         
         ProcessDimTables()
 

@@ -11,6 +11,8 @@ from Libraries.Logging import SurveyLogging
 from Libraries.Configuration import SurveyConfigReader
 #pip install xlrd
 import pandas as pd
+import sqlalchemy
+import urllib
 
 class surveyDatabase():
     def __init__(self):      
@@ -23,6 +25,7 @@ class surveyDatabase():
             self.password = config.get('SQLServer','PASSWORD')
             self.driver = config.get('SQLServer','DRIVER')
             self.sql_conn = pyodbc.connect("DRIVER={"+self.driver+"}; SERVER=" + self.server +"; DATABASE="+ self.database+"; UID="+self.user+"; PWD="+self.password)
+            self.connStr = "DRIVER={"+self.driver+"}; SERVER=" + self.server +"; DATABASE="+ self.database+"; UID="+self.user+"; PWD="+self.password
         except Exception as e:
             self.logger.error(e.args[0])
             raise
@@ -84,86 +87,22 @@ class surveyDatabase():
         except Exception as e:
             self.logger.error(e.args[0])
             raise        
-    
-    """
-    Drops the staging table for a given map_col
-    """
-    def dropStagingTable(self,map_col):
-        try:
-            query = "DROP TABLE IF EXISTS stg.Survey_"+map_col+";"
-            self.execute(query)
-        except Exception as e:
-            self.logger.error(e.args[0])
-            raise
 
     """
     Creates a staging table given the map_col and a column list
     """
-    def createStagingTable(self,map_col,sur):
+    def createStagingTableFromDF(self,df, name):
         try:
-            query = "CREATE TABLE stg.Survey_"+map_col+" ("
-            lastColumn = sur.columns[len(sur.columns)-1]
-
-            for currentColumn in sur.columns:
-                query += " [" + currentColumn + "] NVARCHAR(MAX)"
-                if currentColumn != lastColumn:
-                    query += ","
-                else:
-                    query += ")"
-            
-            self.execute(query)
+            params = urllib.parse.quote_plus(self.connStr)
+            engine = sqlalchemy.create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
+            df.to_sql(name=name, schema="stg", con=engine, if_exists="replace", index=False, chunksize=1000)
         except Exception as e:
             self.logger.error(e.args[0])
             raise
     
-    def insertIntoStagingTable(self,map_col,sur):
-        try:
-            chunkSize = 100
-            queryHeader = "INSERT INTO stg.Survey_"+map_col+" ("
-            lastColumn = sur.columns[len(sur.columns)-1]
-            
-            for currentColumn in sur.columns:
-                queryHeader += " [" + currentColumn + "]"
-                if currentColumn != lastColumn:
-                    queryHeader += ","
-                else:
-                    queryHeader += ") VALUES "
-
-            runningCount = 0
-            
-            queryRow = ""
-            for row in sur.itertuples(index=True, name='Pandas'):
-                if runningCount % chunkSize == 0:
-                    queryRow += "("
-                else:
-                    queryRow += ",("
-
-                for column in sur.columns:
-                    queryRow += "\'" + str(getattr(row, column)).replace("'","''")  + "\'"
-                    if column != lastColumn:
-                        queryRow += ","
-                    else:
-                        queryRow += ")"
-                
-                runningCount += 1
-                #insert by chunks of rows at a time.
-                if runningCount % chunkSize == 0:
-                    self.execute(queryHeader + queryRow)
-                    self.logger.info("Inserted "+str(chunkSize)+" rows, totaling " + str(runningCount) + " rows.")
-                    queryRow = "" 
-
-            #Send in last chunk 
-            if runningCount % chunkSize != 0:    
-                self.execute(queryHeader + queryRow)                
-            self.logger.info("Inserted " + str(runningCount) + " rows.")
-
-        except Exception as e:
-            self.logger.error(e.args[0])
-            raise
-
     def pullMappingTable(self,map_col):
         try:
-            query = "SELECT ["+map_col+"] AS Orginal_Names,[Master_Names],[DataType] FROM [stg].[Mapping_File] WHERE [ImportField] = 1 AND ["+map_col+"] IS NOT NULL"
+            query = "SELECT ["+map_col+"] AS Orginal_Names,[Master_Names],[DataType] FROM [stg].[Mapping_File] WHERE ["+map_col+"] IS NOT NULL"
             return self.executeAndPandas(query)
         except Exception as e:
             self.logger.error(e.args[0])
@@ -174,7 +113,7 @@ class surveyDatabase():
 Used for testing logic
 """
 if __name__ == '__main__':
-
+    import datetime
     SurveyLogging.initLogging()
 
     #print('Internal testing of SurveyDatabase class')
@@ -186,21 +125,26 @@ if __name__ == '__main__':
  
         #print('Starting map column logic')
         map_col = "file_2015"
-        db.selectMapColumn(map_col)
+        #db.selectMapColumn(map_col)
         #db.dropStagingTable(map_col)
         #print('Ending map column logic')
 
 
-        #path = "C:\\Users\\WilliamAndrus\\Datalere\\Marc Beacom - Datalere_Team\\Projects\\Puget Sound Regional Council\\Data Model\\Example ETL for Household Survey Data\\"
-        #filename = "2017-pr2-2-person.xlsx"
-        #filename = "2015-pr2-hhsurvey-person.xlsx"
-        #header_row = 0
+        path = "C:\\Users\\WilliamAndrus\\Datalere\\Marc Beacom - Datalere_Team\\Projects\\Puget Sound Regional Council\\Data Model\\Example ETL for Household Survey Data\\"
+        
+        filename = "2015-pr2-hhsurvey-person.xlsx"
+        header_row = 0
 
         #print('Creating staging table')
         #sur = pd.read_excel(path + filename, index_col = None, header = header_row)
-        #sur = pd.read_excel(path + filename, index_col=None, header=header_row)  
+        sur = pd.read_excel(path + filename, index_col=None, header=header_row)  
 
-        #db.createStagingTable(map_col,sur)
+        #start = datetime.now()
+        db.createStagingTableFromDF(sur,"test")
+        #end = datetime.now()
+
+        #print(end-start)
+
         #db.insertIntoStagingTable(map_col,sur)
         
         #mappingDF = db.pullMappingTable(map_col)
