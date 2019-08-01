@@ -70,6 +70,24 @@ def ProcessFactTables():
         db.execute("exec dbo.mergePersonFact" +str(year))
     return True
 
+def AddParseColumns(columnName, df, codebookDF):
+    #pull column from code book
+    colDF = codebookDF[(codebookDF.Field == columnName) & (codebookDF.Variable >= 0)]
+
+    #Break out
+    if columnName == 'student':
+        colDF['studentind'] = colDF.apply(lambda s: 'N' if s['Value'] == 'No, not a student' else 'Y',axis=1)
+    
+
+    #Join new columns into response
+    df = df.join(colDF.set_index('Variable'), on=columnName, how='left')
+    # Rename columns
+    df = df.rename(columns = {'Value':columnName+'Value','Field':columnName+'Field','Variable':columnName+'Variable'})
+    # Drop column
+    df = df.drop(columnName+'Field', axis=1)
+
+    return df
+
 if __name__ == '__main__' :
     SurveyLogging.initLogging()
     logger = logging.getLogger('surveyLogger')
@@ -93,11 +111,12 @@ if __name__ == '__main__' :
         cbdf = ProcessCodeBookFile()
         rfdf = ProcessResponseFile()
 
+        if str(year) == '2015':
+            rfdf = AddParseColumns('resptype',rfdf, cbdf)
+            rfdf = AddParseColumns('student',rfdf, cbdf)
 
-        #######################################################################################
-        #TODO: Create Function to do (Create SubTable => Join => Rename => Drop logic)   
-        # ParseColumn(ColumnName)
-        ########################################################################################
+
+
 
         #
         # rfdf
@@ -147,6 +166,7 @@ if __name__ == '__main__' :
         ProcessDimTables()
 
         ProcessFactTables()
+
   
     except Exception as e:
         logger.error(e.args[0])
