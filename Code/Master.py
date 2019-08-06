@@ -112,44 +112,11 @@ if __name__ == '__main__' :
         rfdf = ProcessResponseFile()
 
         if str(year) == '2015':
-            rfdf = AddParseColumns('resptype',rfdf, cbdf)
-            rfdf = AddParseColumns('student',rfdf, cbdf)
-
-
-
-
-        #
-        # rfdf
-        #
-        #pull sub tables
-        resptypeDF = cbdf[(cbdf.Field == 'resptype') & (cbdf.Variable >= 0)]
-        #Join new columns into response
-        rfdf = rfdf.join(resptypeDF.set_index('Variable'), on='resptype', how='left')
-        # Rename columns
-        rfdf = rfdf.rename(columns = {'Value':'respTypeValue','Field':'respTypeField','Variable':'respTypeVariable'})
-        # Drop column
-        rfdf = rfdf.drop('respTypeField', axis=1)
-
-        
-        #
-        # student
-        #
-        #pull sub tables        
-        studentDF = cbdf[(cbdf.Field == 'student') & (cbdf.Variable >= 0)]
-        
-        #split out questions with studentind
-        # IF: No, not a student => 'N'
-        # ELSE: 'Y'
-        studentDF['studentind'] = studentDF.apply(lambda s: 'N' if s['Value'] == 'No, not a student' else 'Y',axis=1)
-
-        #Join new columns into response
-        rfdf = rfdf.join(studentDF.set_index('Variable'), on='resptype', how='left')
-        # Rename columns
-        rfdf = rfdf.rename(columns = {'Value':'studentValue','Field':'studentField','Variable':'studentVariable'})
-        # Drop column
-        rfdf = rfdf.drop('studentField', axis=1)
-
-
+            #Foreach column in cbdf
+            for header in list(rfdf.columns.values):
+                rfdf = AddParseColumns(header,rfdf, cbdf)
+            #rfdf = AddParseColumns('resptype',rfdf, cbdf)
+            #rfdf = AddParseColumns('student',rfdf, cbdf)
 
         #Create/Replace new tables
         with SurveyDatabase.surveyDatabase() as db:
