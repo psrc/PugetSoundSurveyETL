@@ -99,6 +99,15 @@ class surveyDatabase():
         except Exception as e:
             self.logger.error(e.args[0])
             raise
+
+    def appendTableFromDF(self,schema,df, name):
+        try:
+            params = urllib.parse.quote_plus(self.connStr)
+            engine = sqlalchemy.create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
+            df.to_sql(name=name, schema=schema, con=engine, if_exists="append", index=False, chunksize=1000)
+        except Exception as e:
+            self.logger.error(e.args[0])
+            raise
     
     def pullMappingTable(self,map_col):
         try:
