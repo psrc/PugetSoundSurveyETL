@@ -13,7 +13,7 @@ class load():
             self.logger.error(e.args[0])
             raise
 
-    def ProcessPersonFactTable(self):
+    def ProcessPersonFactTable(self, year, personFactDF):
         with SurveyDatabase.surveyDatabase() as db:
             db.execute("exec dbo.mergePersonFact" +str(year))
 
