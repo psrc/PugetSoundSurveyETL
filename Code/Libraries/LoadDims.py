@@ -13,9 +13,9 @@ class load():
             self.logger.error(e.args[0])
             raise
 
-    def ProcessHouseHoldDim(self, year, df):
+    def ProcessHouseHoldDim(self, year, responseClass, df):
         with SurveyDatabase.surveyDatabase() as db:
-            db.execute("exec dbo.mergeHouseHoldDim" + str(year))
+            db.execute("exec dbo.mergeHouseHoldDim" + responseClass.capitalize() + str(year))
             #upsert logic instead of sql logic
             #TODO: delete existing year data
             #TODO format df to HouseholdDim structure
@@ -23,17 +23,17 @@ class load():
             #appendTableFromDF('dbo',df, 'HouseholdDim'):
         return True
     
-    def TransformResponseAndCodeTable(self, year, rfdf, cbdf):
+    def TransformResponseAndCodeTable(self, year, responseClass, rfdf, cbdf):
         #Foreach column in cbdf
         for header in list(rfdf.columns.values):
-            rfdf = self.AddParseColumns(header,rfdf, cbdf)
+            rfdf = self.AddParseColumns(header, rfdf, cbdf)
 
         with SurveyDatabase.surveyDatabase() as db:
-            db.createStagingTableFromDF(rfdf,'ResponseAndCode_'+str(year))
+            db.createStagingTableFromDF(rfdf,'ResponseAndCode_'+responseClass+str(year))
 
-    def ProcessPersonDim(self,year, df, cbdf):
+    def ProcessPersonDim(self,year, responseClass, df, cbdf):
         with SurveyDatabase.surveyDatabase() as db:
-            db.execute("exec dbo.mergePersonDim" +str(year))
+            db.execute("exec dbo.mergePersonDim" + responseClass.capitalize() + str(year))
             #upsert logic instead of sql logic
             
    

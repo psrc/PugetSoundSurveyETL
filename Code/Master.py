@@ -29,10 +29,11 @@ if __name__ == '__main__' :
     try :
         if len(sys.argv) > 1:
             year = sys.argv[1]
-            responseFile = sys.argv[2]
-            codeBookFile = sys.argv[3]
+            responseClass = sys.arg[2]
+            responseFile = sys.argv[3]
+            codeBookFile = sys.argv[4]
         else:
-            print("Send in 3 string arguments:  year, response file's path, and code book's path  or edit the launch.json file if debugging locally")
+            print("Send in 4 string arguments:  year, response class (person, household, trip), response file's path, and code book's path  or edit the launch.json file if debugging locally")
             raise Exception('Missing arguments')
 
         #initialize config reader to pull values
@@ -45,7 +46,7 @@ if __name__ == '__main__' :
         stg = Staging.load()
 
         logger.info("Staging response file")
-        stg.StageResponseFile(year, responseFile)
+        stg.StageResponseFile(year, responseClass, responseFile)
 
         logger.info("Staging codebook file")
         stg.StageCodeBookFile(year, codeBookFile)
@@ -61,12 +62,12 @@ if __name__ == '__main__' :
         dims = LoadDims.load()
 
         logger.info("Start transforming new table")
-        dims.TransformResponseAndCodeTable(year, rfdf, cbdf)
+        dims.TransformResponseAndCodeTable(year, responseClass, rfdf, cbdf)
         logger.info("Finished tranforming tables")
         
         logger.info("Start loading HouseholdDim")
         hhdf = rfdf[['hhid','pernum']] #create copy of dataframe for loading
-        dims.ProcessHouseHoldDim(year, hhdf)
+        dims.ProcessHouseHoldDim(year, responseClass, hhdf)
         logger.info("Finished loading HouseholdDim")
 
         logger.info("Start loading PersonDim")

@@ -13,9 +13,9 @@ class load():
             self.logger.error(e.args[0])
             raise
 
-    def ProcessPersonFactTable(self, year, personFactDF):
+    def ProcessPersonFactTable(self, responseClass, year, personFactDF):
         with SurveyDatabase.surveyDatabase() as db:
-            db.execute("exec dbo.mergePersonFact" +str(year))
+            db.execute("exec dbo.mergePersonFact" + responseClass.capitalize() + str(year))
 
         return True
 
