@@ -5,17 +5,19 @@ from Libraries.Database import SurveyDatabase
 from Libraries.Configuration import SurveyConfigReader
 
 class load():
-    def __init__(self):      
+    def __init__(self, year, responseClass):
         try:
             self.logger = logging.getLogger('surveyLogger')
             self.config = SurveyConfigReader.surveyConfig() 
+            self.year = year
+            self.responseClass = responseClass
         except Exception as e:
             self.logger.error(e.args[0])
             raise
 
-    def ProcessHouseHoldDim(self, year, responseClass, df):
+    def ProcessHouseHoldDim(self, df):
         with SurveyDatabase.surveyDatabase() as db:
-            db.execute("exec dbo.mergeHouseHoldDim" + responseClass.capitalize() + str(year))
+            db.execute("exec dbo.mergeHouseHoldDim" + self.responseClass.capitalize() + str(self.year))
             #upsert logic instead of sql logic
             #TODO: delete existing year data
             #TODO format df to HouseholdDim structure
@@ -23,17 +25,17 @@ class load():
             #appendTableFromDF('dbo',df, 'HouseholdDim'):
         return True
     
-    def TransformResponseAndCodeTable(self, year, responseClass, rfdf, cbdf):
+    def TransformResponseAndCodeTable(self, rfdf, cbdf):
         #Foreach column in cbdf
         for header in list(rfdf.columns.values):
             rfdf = self.AddParseColumns(header, rfdf, cbdf)
 
         with SurveyDatabase.surveyDatabase() as db:
-            db.createStagingTableFromDF(rfdf,'ResponseAndCode_'+responseClass+str(year))
+            db.createStagingTableFromDF(rfdf,'ResponseAndCode_'+self.responseClass+str(self.year))
 
-    def ProcessPersonDim(self,year, responseClass, df, cbdf):
+    def ProcessPersonDim(self, df, cbdf):
         with SurveyDatabase.surveyDatabase() as db:
-            db.execute("exec dbo.mergePersonDim" + responseClass.capitalize() + str(year))
+            db.execute("exec dbo.mergePersonDim" + self.responseClass.capitalize() + str(self.year))
             #upsert logic instead of sql logic
             
    
@@ -57,10 +59,10 @@ class load():
         return df
 
 
-    def ProcessMapping(self, year, df):
+    def ProcessMapping(self, df):
         with SurveyDatabase.surveyDatabase() as db:
             self.logger.info("Pulling in the mapping table")
-            mappingDF = db.pullMappingTable("File_"+ str(year))
+            mappingDF = db.pullMappingTable("File_"+ str(self.year))
 
             #Convert to Dictionary
             mappingDict = mappingDF.set_index("Orginal_Names")["Master_Names"].to_dict()

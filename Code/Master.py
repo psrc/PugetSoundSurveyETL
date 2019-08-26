@@ -19,8 +19,8 @@ if __name__ == '__main__' :
     #           |         |HH Dim
     #           |Process files into mem
     #           |--send each dim/fact a subset of the df
-    # 
-    # Loading result; count loaded into dim, count loaded fact; and dangling  dimension items      
+    #
+    # Loading result; count loaded into dim, count loaded fact; and dangling  dimension items
 
     SurveyLogging.initLogging()
     logger = logging.getLogger('surveyLogger')
@@ -29,7 +29,7 @@ if __name__ == '__main__' :
     try :
         if len(sys.argv) > 1:
             year = sys.argv[1]
-            responseClass = sys.arg[2]
+            responseClass = sys.argv[2]
             responseFile = sys.argv[3]
             codeBookFile = sys.argv[4]
         else:
@@ -43,15 +43,15 @@ if __name__ == '__main__' :
         STAGING
         """
         logger.info("Starting Staging")
-        stg = Staging.load()
+        stg = Staging.load(year, responseClass, responseFile)
 
         logger.info("Staging response file")
-        stg.StageResponseFile(year, responseClass, responseFile)
+        stg.StageResponseFile()
 
         logger.info("Staging codebook file")
-        stg.StageCodeBookFile(year, codeBookFile)
-        
+        stg.StageCodeBookFile()
         rfdf = stg.getResponseDF()
+
         cbdf = stg.getCodeBookDF()
         logger.info("Finished Staging")
 
@@ -59,21 +59,21 @@ if __name__ == '__main__' :
         DIM LOADING
         """
         logger.info("Starting Dim Loading")
-        dims = LoadDims.load()
+        dims = LoadDims.load(year, responseClass)
 
         logger.info("Start transforming new table")
-        dims.TransformResponseAndCodeTable(year, responseClass, rfdf, cbdf)
+        dims.TransformResponseAndCodeTable(rfdf, cbdf)
         logger.info("Finished tranforming tables")
-        
+
         logger.info("Start loading HouseholdDim")
         hhdf = rfdf[['hhid','pernum']] #create copy of dataframe for loading
-        dims.ProcessHouseHoldDim(year, responseClass, hhdf)
+        dims.ProcessHouseHoldDim(hhdf)
         logger.info("Finished loading HouseholdDim")
 
         logger.info("Start loading PersonDim")
-        dims.ProcessPersonDim(year, rfdf, cbdf)
+        dims.ProcessPersonDim(rfdf, cbdf)
         logger.info("Finished loading PersonDim")
-      
+
         logger.info("Finished Dim Loading")
 
 
@@ -82,16 +82,16 @@ if __name__ == '__main__' :
         """
         logger.info("Starting Fact Loading")
         fact = LoadFacts.load()
-        
+
         logger.info("Start processing PersonFact")
         personFactDF = rfdf[['personid','hhid','numtrips','diary_duration_minutes']]
-        fact.ProcessPersonFactTable(year, personFactDF)
+        fact.ProcessPersonFactTable(personFactDF)
         logger.info("Finished processing PersonFact")
 
-        
+
         logger.info("Finished Fact Loading")
-  
+
     except Exception as e:
         logger.error(e.args[0])
-    
+
     logger.info("Master Ended")
