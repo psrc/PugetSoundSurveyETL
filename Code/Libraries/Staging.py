@@ -6,13 +6,14 @@ from Libraries.Configuration import SurveyConfigReader
 
 
 class load():
-    def __init__(self, year, responseClass, responseFile):
+    def __init__(self, year, responseClass, responseFile, codeBookFile):
         try:
             self.logger = logging.getLogger('surveyLogger')
             self.config = SurveyConfigReader.surveyConfig()
             self.year = year
             self.responseClass = responseClass
             self.responseFile = responseFile
+            self.codeBookFile = codeBookFile
         except Exception as e:
             self.logger.error(e.args[0])
             raise
@@ -43,7 +44,7 @@ class load():
                 self.logger.info("Finished insertion of response file data into staging table.")
 
                 self.rfdf = rfdf
-        except:
+        except Exception as e:
             self.logger.error(e.args[0])
             raise
 
@@ -55,7 +56,7 @@ class load():
                 codebookHeaderRow = self.config.get('CodeBook',str(self.year)+self.responseClass+"header")
                 codebookSheetName = self.config.get('CodeBook',str(self.year)+self.responseClass+"sheet")
 
-                codebookDict = pd.read_excel(codeBookFile, index_col=None, header=int(codebookHeaderRow), sheet_name=codebookSheetName)
+                codebookDict = pd.read_excel(self.codeBookFile, index_col=None, header=int(codebookHeaderRow), sheet_name=codebookSheetName)
                 codebookDF = pd.DataFrame.from_dict(codebookDict)
 
                 self.logger.info("Starting insertion of codebook file data into staging table.")

@@ -29,7 +29,7 @@ if __name__ == '__main__' :
     try :
         if len(sys.argv) > 1:
             year = sys.argv[1]
-            responseClass = sys.argv[2]
+            responseClass = sys.argv[2].lower()
             responseFile = sys.argv[3]
             codeBookFile = sys.argv[4]
         else:
@@ -43,7 +43,7 @@ if __name__ == '__main__' :
         STAGING
         """
         logger.info("Starting Staging")
-        stg = Staging.load(year, responseClass, responseFile)
+        stg = Staging.load(year, responseClass, responseFile, codeBookFile)
 
         logger.info("Staging response file")
         stg.StageResponseFile()
@@ -65,15 +65,8 @@ if __name__ == '__main__' :
         dims.TransformResponseAndCodeTable(rfdf, cbdf)
         logger.info("Finished tranforming tables")
 
-        logger.info("Start loading HouseholdDim")
-        hhdf = rfdf[['hhid','pernum']] #create copy of dataframe for loading
-        dims.ProcessHouseHoldDim(hhdf)
-        logger.info("Finished loading HouseholdDim")
-
-        logger.info("Start loading PersonDim")
-        dims.ProcessPersonDim(rfdf, cbdf)
-        logger.info("Finished loading PersonDim")
-
+        logger.info("Start loading Dimensions")
+        dims.LoadDims()
         logger.info("Finished Dim Loading")
 
 
@@ -81,12 +74,13 @@ if __name__ == '__main__' :
         FACT LOADING
         """
         logger.info("Starting Fact Loading")
-        fact = LoadFacts.load()
+        fact = LoadFacts.load(year, responseClass)
 
-        logger.info("Start processing PersonFact")
-        personFactDF = rfdf[['personid','hhid','numtrips','diary_duration_minutes']]
-        fact.ProcessPersonFactTable(personFactDF)
-        logger.info("Finished processing PersonFact")
+        fact.LoadFacts(rfdf)
+        #logger.info("Start processing PersonFact")
+        #personFactDF = rfdf[['personid','hhid','numtrips','diary_duration_minutes']]
+        #fact.ProcessPersonFactTable(personFactDF)
+        #logger.info("Finished processing PersonFact")
 
 
         logger.info("Finished Fact Loading")

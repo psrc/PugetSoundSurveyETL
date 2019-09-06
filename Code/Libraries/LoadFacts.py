@@ -15,9 +15,38 @@ class load():
             self.logger.error(e.args[0])
             raise
 
+
     def ProcessPersonFactTable(self, personFactDF):
-        with SurveyDatabase.surveyDatabase() as db:
-            db.execute("exec dbo.mergePersonFact" + self.responseClass.capitalize() + str(self.year))
+        try:
+            with SurveyDatabase.surveyDatabase() as db:
+                db.execute("exec dbo.mergePersonFact" + self.responseClass.capitalize() + str(self.year))
+            return True
+        except Exception as e:
+            self.logger.error(e.args[0])
+            raise
 
-        return True
 
+    def ProcessHouseholdFactTable(self):
+        try:
+            with SurveyDatabase.surveyDatabase() as db:
+                db.execute("exec dbo.mergeHouseholdFact" + self.responseClass.capitalize() + str(self.year))
+            return True
+        except Exception as e:
+            self.logger.error(e.args[0])
+            raise
+
+
+    def LoadFacts(self, rfdf):
+        try:
+            if self.responseClass == 'household':
+                self.logger.info("Start loading HouseholdFact")
+                #self.ProcessHouseHoldFact()
+                self.logger.info("Households exist as dimentions only.  No fact tables to load.")
+            elif self.responseClass == 'person':
+                self.logger.info("Start processing PersonFact")
+                personFactDF = rfdf[['personid','hhid','numtrips','diary_duration_minutes']]
+                self.ProcessPersonFactTable(personFactDF)
+                self.logger.info("finished processing PersonFact")
+        except Exception as e:
+            self.logger.error(e.args[0])
+            raise
