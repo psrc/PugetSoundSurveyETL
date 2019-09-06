@@ -27,20 +27,16 @@ class surveyDatabase():
             self.driver = config.get('SQLServer','DRIVER')
             self.trusted_conn = config.getboolean('SQLServer', 'TRUSTED_CONN')
             if self.trusted_conn:
-                print("trusted_conn = true")
                 self.conn_string = ("DRIVER={"+self.driver+"}; "
                                                 "SERVER=" + self.server +"; "
                                                 "DATABASE="+ self.database+"; "
                                                 "trusted_connection=true")
-                print(self.conn_string)
             else:
-                print("trusted_conn = false")
                 self.conn_string = ("DRIVER={"+self.driver+"}; "
                                                 "SERVER=" + self.server +"; "
                                                 "DATABASE="+ self.database+"; "
                                                 "UID="+self.user+"; "
                                                 "PWD="+self.password)
-                print(self.conn_string)
             self.sql_conn = pyodbc.connect(self.conn_string)
         except Exception as e:
             self.logger.error(e.args[0])
