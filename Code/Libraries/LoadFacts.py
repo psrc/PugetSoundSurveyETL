@@ -19,7 +19,7 @@ class load():
     def ProcessPersonFactTable(self, personFactDF):
         try:
             with SurveyDatabase.surveyDatabase() as db:
-                db.execute("exec dbo.mergePersonFact" + self.responseClass.capitalize() + str(self.year))
+                db.execute("exec HHSurvey.mergePersonFact" + str(self.year))
             return True
         except Exception as e:
             self.logger.error(e.args[0])
@@ -29,7 +29,7 @@ class load():
     def ProcessHouseholdFactTable(self):
         try:
             with SurveyDatabase.surveyDatabase() as db:
-                db.execute("exec dbo.mergeHouseholdFact" + self.responseClass.capitalize() + str(self.year))
+                db.execute("exec HHSurvey.mergeHouseholdFact" + str(self.year))
             return True
         except Exception as e:
             self.logger.error(e.args[0])

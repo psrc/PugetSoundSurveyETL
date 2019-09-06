@@ -34,7 +34,7 @@ class load():
     def ProcessHouseHoldDim(self):
         try:
             with SurveyDatabase.surveyDatabase() as db:
-                db.execute("exec dbo.mergeHouseholdDim" + str(self.year))
+                db.execute("exec HHSurvey.mergeHouseholdDim" + str(self.year))
                 #upsert logic instead of sql logic
                 #TODO: delete existing year data
                 #TODO format df to HouseholdDim structure

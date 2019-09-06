@@ -107,7 +107,6 @@ class surveyDatabase():
     def createStagingTableFromDF(self,df, name):
         try:
             params = urllib.parse.quote_plus(self.conn_string)
-            print(params)
             engine = sqlalchemy.create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
             df.to_sql(name=name, schema="stg", con=engine, if_exists="replace", index=False, chunksize=1000)
         except Exception as e:
