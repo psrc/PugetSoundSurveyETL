@@ -19,8 +19,8 @@ if __name__ == '__main__' :
     #           |         |HH Dim
     #           |Process files into mem
     #           |--send each dim/fact a subset of the df
-    # 
-    # Loading result; count loaded into dim, count loaded fact; and dangling  dimension items      
+    #
+    # Loading result; count loaded into dim, count loaded fact; and dangling  dimension items
 
     SurveyLogging.initLogging()
     logger = logging.getLogger('surveyLogger')
@@ -29,10 +29,11 @@ if __name__ == '__main__' :
     try :
         if len(sys.argv) > 1:
             year = sys.argv[1]
-            responseFile = sys.argv[2]
-            codeBookFile = sys.argv[3]
+            responseClass = sys.argv[2].lower()
+            responseFile = sys.argv[3]
+            codeBookFile = sys.argv[4]
         else:
-            print("Send in 3 string arguments:  year, response file's path, and code book's path  or edit the launch.json file if debugging locally")
+            print("Send in 4 string arguments:  year, response class (person, household, trip), response file's path, and code book's path  or edit the launch.json file if debugging locally")
             raise Exception('Missing arguments')
 
         #initialize config reader to pull values
@@ -42,15 +43,15 @@ if __name__ == '__main__' :
         STAGING
         """
         logger.info("Starting Staging")
-        stg = Staging.load()
+        stg = Staging.load(year, responseClass, responseFile, codeBookFile)
 
         logger.info("Staging response file")
-        stg.StageResponseFile(year, responseFile)
+        stg.StageResponseFile()
 
         logger.info("Staging codebook file")
-        stg.StageCodeBookFile(year, codeBookFile)
-        
+        stg.StageCodeBookFile()
         rfdf = stg.getResponseDF()
+
         cbdf = stg.getCodeBookDF()
         logger.info("Finished Staging")
 
@@ -58,21 +59,14 @@ if __name__ == '__main__' :
         DIM LOADING
         """
         logger.info("Starting Dim Loading")
-        dims = LoadDims.load()
+        dims = LoadDims.load(year, responseClass)
 
         logger.info("Start transforming new table")
-        dims.TransformResponseAndCodeTable(year, rfdf, cbdf)
+        dims.TransformResponseAndCodeTable(rfdf, cbdf)
         logger.info("Finished tranforming tables")
-        
-        logger.info("Start loading HouseholdDim")
-        hhdf = rfdf[['hhid','pernum']] #create copy of dataframe for loading
-        dims.ProcessHouseHoldDim(year, hhdf)
-        logger.info("Finished loading HouseholdDim")
 
-        logger.info("Start loading PersonDim")
-        dims.ProcessPersonDim(year, rfdf, cbdf)
-        logger.info("Finished loading PersonDim")
-      
+        logger.info("Start loading Dimensions")
+        dims.LoadDims()
         logger.info("Finished Dim Loading")
 
 
@@ -80,17 +74,18 @@ if __name__ == '__main__' :
         FACT LOADING
         """
         logger.info("Starting Fact Loading")
-        fact = LoadFacts.load()
-        
-        logger.info("Start processing PersonFact")
-        personFactDF = rfdf[['personid','hhid','numtrips','diary_duration_minutes']]
-        fact.ProcessPersonFactTable(year, personFactDF)
-        logger.info("Finished processing PersonFact")
+        fact = LoadFacts.load(year, responseClass)
 
-        
+        fact.LoadFacts(rfdf)
+        #logger.info("Start processing PersonFact")
+        #personFactDF = rfdf[['personid','hhid','numtrips','diary_duration_minutes']]
+        #fact.ProcessPersonFactTable(personFactDF)
+        #logger.info("Finished processing PersonFact")
+
+
         logger.info("Finished Fact Loading")
-  
+
     except Exception as e:
         logger.error(e.args[0])
-    
+
     logger.info("Master Ended")
