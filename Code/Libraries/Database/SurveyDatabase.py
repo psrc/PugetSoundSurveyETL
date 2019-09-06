@@ -21,11 +21,27 @@ class surveyDatabase():
             config = SurveyConfigReader.surveyConfig()
             self.server = config.get('SQLServer','SERVER')
             self.database = config.get('SQLServer','DATABASE')
+            self.schema = config.get('SQLServer', 'SCHEMA')
             self.user = config.get('SQLServer','USER')
             self.password = config.get('SQLServer','PASSWORD')
             self.driver = config.get('SQLServer','DRIVER')
-            self.sql_conn = pyodbc.connect("DRIVER={"+self.driver+"}; SERVER=" + self.server +"; DATABASE="+ self.database+"; UID="+self.user+"; PWD="+self.password)
-            self.connStr = "DRIVER={"+self.driver+"}; SERVER=" + self.server +"; DATABASE="+ self.database+"; UID="+self.user+"; PWD="+self.password
+            self.trusted_conn = config.getboolean('SQLServer', 'TRUSTED_CONN')
+            if self.trusted_conn:
+                print("trusted_conn = true")
+                self.conn_string = ("DRIVER={"+self.driver+"}; "
+                                                "SERVER=" + self.server +"; "
+                                                "DATABASE="+ self.database+"; "
+                                                "trusted_connection=true")
+                print(self.conn_string)
+            else:
+                print("trusted_conn = false")
+                self.conn_string = ("DRIVER={"+self.driver+"}; "
+                                                "SERVER=" + self.server +"; "
+                                                "DATABASE="+ self.database+"; "
+                                                "UID="+self.user+"; "
+                                                "PWD="+self.password)
+                print(self.conn_string)
+            self.sql_conn = pyodbc.connect(self.conn_string)
         except Exception as e:
             self.logger.error(e.args[0])
             raise
@@ -94,7 +110,8 @@ class surveyDatabase():
     """
     def createStagingTableFromDF(self,df, name):
         try:
-            params = urllib.parse.quote_plus(self.connStr)
+            params = urllib.parse.quote_plus(self.conn_string)
+            print(params)
             engine = sqlalchemy.create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
             df.to_sql(name=name, schema="stg", con=engine, if_exists="replace", index=False, chunksize=1000)
         except Exception as e:
@@ -103,7 +120,7 @@ class surveyDatabase():
 
     def appendTableFromDF(self,schema,df, name):
         try:
-            params = urllib.parse.quote_plus(self.connStr)
+            params = urllib.parse.quote_plus(self.conn_string)
             engine = sqlalchemy.create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
             df.to_sql(name=name, schema=schema, con=engine, if_exists="append", index=False, chunksize=1000)
         except Exception as e:

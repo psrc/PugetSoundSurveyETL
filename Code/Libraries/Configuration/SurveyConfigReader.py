@@ -15,6 +15,9 @@ class surveyConfig():
     def get(self,section,key):
         return self.config.get(section,key)
 
+    def getboolean(self, section,key):
+        return self.config.getboolean(section, key)
+
 """
 Used for testing logic
 """
