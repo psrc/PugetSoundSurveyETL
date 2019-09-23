@@ -26,15 +26,19 @@ class load():
                 #read in where the header row starts
                 header_row = int(self.config.get('Response',str(self.year)+self.responseClass+"header"))
                 self.logger.info("Setting header row to: " + str(header_row))
+                sheet_name = self.config.get('Response', str(self.year)+self.responseClass+"sheet")
+                self.logger.info("Setting sheet name to: " + sheet_name)
 
                 self.logger.info("Reading in file format for " + str(self.year))
                 readFormat = self.config.get('Response',str(self.year)+self.responseClass+"format")
 
                 if readFormat == 'excel':
+                    response_sheet_name = self.config.get('Response', str(self.year)+self.responseClass+"sheet")
+                    self.logger.info("Setting sheet name to: " + response_sheet_name)
                     self.logger.info('Reading in survey excel file from: ' + self.responseFile)
-                    rfdf = pd.read_excel(self.responseFile, index_col=None, header=header_row)
+                    rfdf = pd.read_excel(self.responseFile, index_col=None, header=header_row, sheet_name=response_sheet_name)
                 elif readFormat == 'database':
-                    self.logger.info('Reading in survey from database table') 
+                    self.logger.info('Reading in survey from database table')
                     rfdf = db.executeAndPandas("SELECT * FROM [stg].["+self.responseFile+"]")
                 else:
                     raise Exception('Unknown Format Type')
@@ -49,6 +53,20 @@ class load():
             raise
 
     def StageCodeBookFile(self):
+
+        def ReproduceModeChoiceSets(df):
+            try:
+                self.logger.info("Reproducing mode choice lookups")
+                mode_choice_df = df[df.Field == 'mode_4']
+                for i in [1,2,3]:
+                    mode_choice_df = mode_choice_df.assign(Field='mode_' + str(i))
+                    df = df.append(mode_choice_df)
+                return df
+
+            except Exception as e:
+                self.logger.error(e.args[0])
+                raise
+
         try:
             self.logger.info("Starting staging codebook file")
 
@@ -65,7 +83,10 @@ class load():
 
                 self.logger.info("Starting transformation of codebook.")
                 codebookDF = codebookDF.replace('Valid Values',pd.np.nan)
+                codebookDF = codebookDF.replace('Labeled Values',pd.np.nan)
                 codebookDF[['order','Field']] = codebookDF[['order','Field']].fillna(method='ffill')
+                if (self.year == '2017' and self.responseClass == 'trip'):
+                    codebookDF = ReproduceModeChoiceSets(codebookDF)
                 self.cbdf = codebookDF[['Field','Variable','Value']]
                 self.logger.info("Finished transformation of codebook.")
         except Exception as e:

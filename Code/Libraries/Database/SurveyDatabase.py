@@ -24,13 +24,13 @@ class surveyDatabase():
             self.schema = config.get('SQLServer', 'SCHEMA')
             self.user = config.get('SQLServer','USER')
             self.password = config.get('SQLServer','PASSWORD')
-            self.driver = config.get('SQLServer','DRIVER')
+            self.driver = config.get('SQLServer','DRIVER_TEST')
             self.trusted_conn = config.getboolean('SQLServer', 'TRUSTED_CONN')
             if self.trusted_conn:
                 self.conn_string = ("DRIVER={"+self.driver+"}; "
                                                 "SERVER=" + self.server +"; "
                                                 "DATABASE="+ self.database+"; "
-                                                "trusted_connection=true")
+                                                "trusted_connection=yes")
             else:
                 self.conn_string = ("DRIVER={"+self.driver+"}; "
                                                 "SERVER=" + self.server +"; "
@@ -39,6 +39,7 @@ class surveyDatabase():
                                                 "PWD="+self.password)
             self.sql_conn = pyodbc.connect(self.conn_string)
         except Exception as e:
+            print(self.conn_string)
             self.logger.error(e.args[0])
             raise
 
@@ -110,8 +111,11 @@ class surveyDatabase():
             engine = sqlalchemy.create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
             df.to_sql(name=name, schema="stg", con=engine, if_exists="replace", index=False, chunksize=1000)
         except Exception as e:
+            self.logger.error("Conn string = {}".format(self.conn_string))
+            print(df)
             self.logger.error(e.args[0])
             raise
+
 
     def appendTableFromDF(self,schema,df, name):
         try:
@@ -121,6 +125,7 @@ class surveyDatabase():
         except Exception as e:
             self.logger.error(e.args[0])
             raise
+
 
     def pullMappingTable(self,map_col):
         try:

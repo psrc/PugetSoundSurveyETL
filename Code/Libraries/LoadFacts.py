@@ -41,12 +41,17 @@ class load():
             if self.responseClass == 'household':
                 self.logger.info("Start loading HouseholdFact")
                 #self.ProcessHouseHoldFact()
-                self.logger.info("Households exist as dimentions only.  No fact tables to load.")
+                self.ProcessHouseholdFactTable()
+                self.logger.info("Finished processing HouseholdFact.")
             elif self.responseClass == 'person':
                 self.logger.info("Start processing PersonFact")
                 personFactDF = rfdf[['personid','hhid','numtrips','diary_duration_minutes']]
                 self.ProcessPersonFactTable(personFactDF)
                 self.logger.info("finished processing PersonFact")
+            if self.responseClass == 'trip':
+                self.logger.info("Start loading TripFact")
+                #self.ProcessHouseHoldFact()
+                self.logger.info("Trips exist as dimentions only.  No fact tables to load.")
         except Exception as e:
             self.logger.error(e.args[0])
             raise

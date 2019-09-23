@@ -82,7 +82,6 @@ if __name__ == '__main__' :
         #fact.ProcessPersonFactTable(personFactDF)
         #logger.info("Finished processing PersonFact")
 
-
         logger.info("Finished Fact Loading")
 
     except Exception as e:
