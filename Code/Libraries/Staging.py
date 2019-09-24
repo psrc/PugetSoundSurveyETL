@@ -14,13 +14,6 @@ class load():
             self.responseClass = responseClass
             self.responseFile = responseFile
             self.codeBookFile = codeBookFile
-            # MOREMORE park and ride columns should be defined in config file.
-            self.park_and_ride_columns = ['park_ride_lot_start', 'park_ride_lot_end']
-            self.transit_line_columns = ['transit_line_1',
-                                        'transit_line_2',
-                                        'transit_line_3',
-                                        'transit_line_4',
-                                        'transit_line_5']
         except Exception as e:
             self.logger.error(e.args[0])
             raise
@@ -92,28 +85,17 @@ class load():
     def AddSpecialCodebookSheet (self, cbdf, sheet_type):
         try:
             self.logger.info("Beginning AddSpecialCodebookSheet() for {}".format(sheet_type))
-            if sheet_type == 'park and ride':
-                header_key = 'parkandrideheader'
-                sheet_key = 'parkandridesheet'
-                response_cols = self.park_and_ride_columns
-                special_cols = ['Field', 'Variable', 'Value']
-            elif sheet_type == 'transit line':
-                header_key = 'transitlineheader'
-                sheet_key = 'transitlinesheet'
-                response_cols = self.transit_line_columns
-                special_cols = ['Type','Field', 'Variable', 'Value']
-            else:
-                raise Exception('Invalid sheet_type {}'.format(sheet_type))
+            response_cols = self.config.get('Response', str(self.year)+sheet_type+'columns').split(', ')
+            special_cols = self.config.get('CodeBook', str(self.year)+sheet_type+'columns').split(', ')
             column_ids = list(range(0, len(special_cols)))
-            headerRow = self.config.get('CodeBook', str(self.year)+header_key)
-            sheetName = self.config.get('CodeBook', str(self.year)+sheet_key)
+            headerRow = self.config.get('CodeBook', str(self.year)+sheet_type+'header')
+            sheetName = self.config.get('CodeBook', str(self.year)+sheet_type+'sheet')
             specialDict = pd.read_excel(self.codeBookFile, 
                                         index_col=None, 
                                         header=int(headerRow), 
                                         sheet_name=sheetName, 
                                         usecols=column_ids)
             specialDF = pd.DataFrame.from_dict(specialDict)
-            print(specialDF)
             specialDF.columns = special_cols
             specialDF = specialDF[['Field', 'Variable', 'Value']]
             self.logger.info("inserting special sheet data into codebook for {} data.".format(sheet_type))
@@ -134,8 +116,8 @@ class load():
     def AddSpecialCodeBookRows(self, cbdf):
         try:
             cbdf = self.ReproduceModeChoiceSets(cbdf)
-            cbdf = self.AddSpecialCodebookSheet(cbdf, 'park and ride')
-            cbdf = self.AddSpecialCodebookSheet(cbdf, 'transit line')
+            cbdf = self.AddSpecialCodebookSheet(cbdf, 'parkandride')
+            cbdf = self.AddSpecialCodebookSheet(cbdf, 'transitline')
             return cbdf
         except Exception as e:
             self.logger.error(e.args[0])
