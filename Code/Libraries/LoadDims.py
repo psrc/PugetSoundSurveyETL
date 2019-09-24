@@ -12,6 +12,8 @@ class load():
             self.config = SurveyConfigReader.surveyConfig()
             self.year = year
             self.responseClass = responseClass
+            # MOREMORE park and ride columns should be defined in config file.
+            self.park_and_ride_columns = ['park_ride_lot_start', 'park_ride_lot_end']
         except Exception as e:
             self.logger.error(e.args[0])
             raise

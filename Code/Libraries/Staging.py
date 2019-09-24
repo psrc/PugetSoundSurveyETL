@@ -14,6 +14,13 @@ class load():
             self.responseClass = responseClass
             self.responseFile = responseFile
             self.codeBookFile = codeBookFile
+            # MOREMORE park and ride columns should be defined in config file.
+            self.park_and_ride_columns = ['park_ride_lot_start', 'park_ride_lot_end']
+            self.transit_line_columns = ['transit_line_1',
+                                        'transit_line_2',
+                                        'transit_line_3',
+                                        'transit_line_4',
+                                        'transit_line_5']
         except Exception as e:
             self.logger.error(e.args[0])
             raise
@@ -52,20 +59,90 @@ class load():
             self.logger.error(e.args[0])
             raise
 
+    def ReproduceModeChoiceSets(self, cbdf):
+        try:
+            self.logger.info("Reproducing mode choice lookups")
+            mode_choice_df = cbdf[cbdf.Field == 'mode_4']
+            for i in [1,2,3]:
+                mode_choice_df = mode_choice_df.assign(Field='mode_' + str(i))
+                cbdf = cbdf.append(mode_choice_df)
+            return cbdf
+
+        except Exception as e:
+            self.logger.error(e.args[0])
+            raise
+
+    def AddParkAndRideRowsToCodebook(self, cbdf):
+        try:
+            prHeaderRow = self.config.get('CodeBook', str(self.year)+'parkandrideheader')
+            prSheetName = self.config.get('CodeBook', str(self.year)+'parkandridesheet')
+            prDict = pd.read_excel(self.codeBookFile, index_col=None, header=int(prHeaderRow), sheet_name=prSheetName)
+            prDF = pd.DataFrame.from_dict(prDict)
+            prDF.columns=['Field', 'Variable', 'Value']
+            self.logger.info("inserting park and ride data into cbdf")
+            for col_name in self.park_and_ride_columns:
+                prDF.Field = col_name
+                cbdf = cbdf[cbdf.Field != col_name] #remove the single-line bogus junk record from codebook
+                cbdf = cbdf.append(prDF)
+            return cbdf
+        except Exception as e:
+            self.logger.error(e.args[0])
+            raise
+
+    def AddSpecialCodebookSheet (self, cbdf, sheet_type):
+        try:
+            self.logger.info("Beginning AddSpecialCodebookSheet() for {}".format(sheet_type))
+            if sheet_type == 'park and ride':
+                header_key = 'parkandrideheader'
+                sheet_key = 'parkandridesheet'
+                response_cols = self.park_and_ride_columns
+                special_cols = ['Field', 'Variable', 'Value']
+            elif sheet_type == 'transit line':
+                header_key = 'transitlineheader'
+                sheet_key = 'transitlinesheet'
+                response_cols = self.transit_line_columns
+                special_cols = ['Type','Field', 'Variable', 'Value']
+            else:
+                raise Exception('Invalid sheet_type {}'.format(sheet_type))
+            column_ids = list(range(0, len(special_cols)))
+            headerRow = self.config.get('CodeBook', str(self.year)+header_key)
+            sheetName = self.config.get('CodeBook', str(self.year)+sheet_key)
+            specialDict = pd.read_excel(self.codeBookFile, 
+                                        index_col=None, 
+                                        header=int(headerRow), 
+                                        sheet_name=sheetName, 
+                                        usecols=column_ids)
+            specialDF = pd.DataFrame.from_dict(specialDict)
+            print(specialDF)
+            specialDF.columns = special_cols
+            specialDF = specialDF[['Field', 'Variable', 'Value']]
+            self.logger.info("inserting special sheet data into codebook for {} data.".format(sheet_type))
+            for col_name in response_cols:
+                specialDF.Field = col_name
+                self.logger.info('Removing bogus junk records from codebook')
+                cbdf = cbdf[cbdf.Field != col_name] #remove the single-line bogus junk record from codebook
+                self.logger.info("Appending specialDF for column {}".format(col_name))
+                #cbdf = cbdf.append(specialDF, sort=True)
+                cbdf = pd.concat([cbdf, specialDF])
+                self.logger.info("Finished appending specialDF for column {}".format(col_name))
+            return cbdf
+
+        except Exception as e:
+            self.logger.error(e.args[0])
+            raise
+
+    def AddSpecialCodeBookRows(self, cbdf):
+        try:
+            cbdf = self.ReproduceModeChoiceSets(cbdf)
+            cbdf = self.AddSpecialCodebookSheet(cbdf, 'park and ride')
+            cbdf = self.AddSpecialCodebookSheet(cbdf, 'transit line')
+            return cbdf
+        except Exception as e:
+            self.logger.error(e.args[0])
+            raise
+
+
     def StageCodeBookFile(self):
-
-        def ReproduceModeChoiceSets(df):
-            try:
-                self.logger.info("Reproducing mode choice lookups")
-                mode_choice_df = df[df.Field == 'mode_4']
-                for i in [1,2,3]:
-                    mode_choice_df = mode_choice_df.assign(Field='mode_' + str(i))
-                    df = df.append(mode_choice_df)
-                return df
-
-            except Exception as e:
-                self.logger.error(e.args[0])
-                raise
 
         try:
             self.logger.info("Starting staging codebook file")
@@ -86,7 +163,7 @@ class load():
                 codebookDF = codebookDF.replace('Labeled Values',pd.np.nan)
                 codebookDF[['order','Field']] = codebookDF[['order','Field']].fillna(method='ffill')
                 if (self.year == '2017' and self.responseClass == 'trip'):
-                    codebookDF = ReproduceModeChoiceSets(codebookDF)
+                    codebookDF = self.AddSpecialCodeBookRows(codebookDF)
                 self.cbdf = codebookDF[['Field','Variable','Value']]
                 self.logger.info("Finished transformation of codebook.")
         except Exception as e:
