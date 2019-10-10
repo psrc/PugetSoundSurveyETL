@@ -35,6 +35,15 @@ class load():
             self.logger.error(e.args[0])
             raise
 
+    def ProcessFactTable(self):
+        try:
+            with SurveyDatabase.surveyDatabase() as db:
+                db.execute("exec HHSurvey.merge" + self.responseClass.capitalize() + "Fact" + str(self.year))
+            return True
+        except Exception as e:
+            self.logger.error(e.args[0])
+            raise
+
 
     def LoadFacts(self, rfdf):
         try:
@@ -46,12 +55,11 @@ class load():
             elif self.responseClass == 'person':
                 self.logger.info("Start processing PersonFact")
                 personFactDF = rfdf[['personid','hhid','numtrips','diary_duration_minutes']]
-                self.ProcessPersonFactTable(personFactDF)
+                self.ProcessFactTable()
                 self.logger.info("finished processing PersonFact")
             if self.responseClass == 'trip':
                 self.logger.info("Start loading TripFact")
-                #self.ProcessHouseHoldFact()
-                self.logger.info("Trips exist as dimentions only.  No fact tables to load.")
+                self.ProcessFactTable()
         except Exception as e:
             self.logger.error(e.args[0])
             raise
