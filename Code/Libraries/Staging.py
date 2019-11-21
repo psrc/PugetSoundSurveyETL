@@ -105,7 +105,7 @@ class load():
                 cbdf = cbdf[cbdf.Field != col_name] #remove the single-line bogus junk record from codebook
                 self.logger.info("Appending specialDF for column {}".format(col_name))
                 #cbdf = cbdf.append(specialDF, sort=True)
-                cbdf = pd.concat([cbdf, specialDF])
+                cbdf = pd.concat([cbdf, specialDF], sort=True)
                 self.logger.info("Finished appending specialDF for column {}".format(col_name))
             return cbdf
 

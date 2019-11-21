@@ -71,7 +71,7 @@ class load():
     def ProcessTripDim(self):
         try:
             with SurveyDatabase.surveyDatabase() as db:
-                db.execute("exec HHSurvey.mergeTripDim" + str(self.year))
+                db.execute("exec HHSurvey.merge_trip+dim_" + str(self.year))
                 #upsert logic instead of sql logic
         except Exception as e:
             self.logger.error(e.args[0])
