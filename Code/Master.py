@@ -43,7 +43,10 @@ if __name__ == '__main__' :
         STAGING
         """
         logger.info("Starting Staging")
-        stg = Staging.load(year, responseClass, responseFile, codeBookFile)
+        if year=='2017_2019':
+            stg = Staging.load2019(year, responseClass, responseFile, codeBookFile)
+        else:
+            stg = Staging.load(year, responseClass, responseFile, codeBookFile)
 
         logger.info("Staging response file")
         stg.StageResponseFile()
@@ -59,7 +62,10 @@ if __name__ == '__main__' :
         DIM LOADING
         """
         logger.info("Starting Dim Loading")
-        dims = LoadDims.load(year, responseClass)
+        if year=='2017_2019':
+            dims = LoadDims.load2019(year, responseClass)
+        else:
+            dims = LoadDims.load(year, responseClass)
 
         logger.info("Start transforming new table")
         dims.TransformResponseAndCodeTable(rfdf, cbdf)
@@ -74,7 +80,10 @@ if __name__ == '__main__' :
         FACT LOADING
         """
         logger.info("Starting Fact Loading")
-        fact = LoadFacts.load(year, responseClass)
+        if year=='2017_2019':
+            fact = LoadFacts.load2019(year, responseClass)
+        else:
+            fact = LoadFacts.load(year, responseClass)
 
         fact.LoadFacts(rfdf)
         #logger.info("Start processing PersonFact")

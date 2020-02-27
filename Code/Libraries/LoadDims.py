@@ -158,3 +158,27 @@ class load():
             df = df.rename(index=str, columns=mappingDict)
         return True
 
+class load2019(load):
+
+    def __init__(self, year, responseClass):
+        super().__init__(year, responseClass)
+
+
+    def LoadDims(self):
+        try:
+            self.logger.info("Starting loading {}_dim".format(self.responseClass))
+            sproc_name = 'HHSurvey.merge_{}_dim_{}'.format(self.responseClass, str(self.year))
+            with SurveyDatabase.surveyDatabase() as db:
+                db.execute("exec {}".format(sproc_name))
+            self.logger.info("Finished loading {}_dim".format(self.responseClass))
+        except Exception as e:
+            self.logger.error(e.args[0])
+            raise
+
+    def TransformResponseAndCodeTable(self, rfdf, cbdf):
+        #Foreach column in cbdf
+        for header in list(rfdf.columns.values):
+            rfdf = self.AddParseColumns(header, rfdf, cbdf)
+
+        with SurveyDatabase.surveyDatabase() as db:
+            db.createStagingTableFromDF(rfdf,'response_and_code_' + self.responseClass +'_'+str(self.year))
