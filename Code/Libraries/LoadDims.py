@@ -71,7 +71,7 @@ class load():
     def ProcessTripDim(self):
         try:
             with SurveyDatabase.surveyDatabase() as db:
-                db.execute("exec HHSurvey.merge_trip+dim_" + str(self.year))
+                db.execute("exec HHSurvey.merge_trip_dim_" + str(self.year))
                 #upsert logic instead of sql logic
         except Exception as e:
             self.logger.error(e.args[0])
@@ -89,10 +89,10 @@ class load():
 
         try:
             if colDF.Variable.dtype == 'object':
-                if colDF.Variable.str.isnumeric().min():
+                if colDF.Variable.astype(str).str.isnumeric().min():
                     # the codebook values for fieldName are all numeric, so change them to int
                     colDF.Variable = colDF.Variable.astype(int)
-                elif colDF.Variable.str.isnumeric().max():
+                elif colDF.Variable.astype(str).str.isnumeric().max():
                     # some but not all the codebook values are numeric, so take the numeric ones
                     #moremore: isnumeric() doesn't think negatives are numeric!
                     colDF = colDF[colDF.Variable.apply(lambda x: IsFloat(x))]
@@ -104,6 +104,8 @@ class load():
             return colDF
 
         except Exception as e:
+            print(colDF)
+            print(colDF.dtypes)
             self.logger.error(e.args[0])
             raise
 
