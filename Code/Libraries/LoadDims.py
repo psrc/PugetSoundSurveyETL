@@ -41,7 +41,7 @@ class load():
     def ProcessHouseHoldDim(self):
         try:
             with SurveyDatabase.surveyDatabase() as db:
-                db.execute("exec HHSurvey.mergeHouseholdDim" + str(self.year))
+                db.execute("exec HHSurvey.merge_household_dim_" + str(self.year))
                 #upsert logic instead of sql logic
                 #TODO: delete existing year data
                 #TODO format df to HouseholdDim structure
@@ -54,24 +54,29 @@ class load():
 
 
     def TransformResponseAndCodeTable(self, rfdf, cbdf):
-        #Foreach column in cbdf
-        for header in list(rfdf.columns.values):
-            rfdf = self.AddParseColumns(header, rfdf, cbdf)
+        try:
+            #Foreach column in cbdf
+            for header in list(rfdf.columns.values):
+                rfdf = self.AddParseColumns(header, rfdf, cbdf)
 
-        with SurveyDatabase.surveyDatabase() as db:
-            db.createStagingTableFromDF(rfdf,'ResponseAndCode'+self.responseClass.capitalize()+'_'+str(self.year))
+            with SurveyDatabase.surveyDatabase() as db:
+                db.createStagingTableFromDF(rfdf,'response_and_code_'+self.responseClass+'_'+str(self.year))
+
+        except Exception as e:
+            self.logger.error('header=' + header + e.args[0])
+            raise
 
 
     def ProcessPersonDim(self):
         with SurveyDatabase.surveyDatabase() as db:
-            db.execute("exec HHSurvey.mergePersonDim" + str(self.year))
+            db.execute("exec HHSurvey.merge_person_dim_" + str(self.year))
             #upsert logic instead of sql logic
 
 
     def ProcessTripDim(self):
         try:
             with SurveyDatabase.surveyDatabase() as db:
-                db.execute("exec HHSurvey.merge_trip+dim_" + str(self.year))
+                db.execute("exec HHSurvey.merge_trip_dim_" + str(self.year))
                 #upsert logic instead of sql logic
         except Exception as e:
             self.logger.error(e.args[0])
@@ -104,7 +109,7 @@ class load():
             return colDF
 
         except Exception as e:
-            self.logger.error(e.args[0])
+            self.logger.error(e.args[0] + '(StandardizeCodebookColumn)')
             raise
 
     def StandardizeDataColumn(self, column_name, rfdf):
@@ -115,16 +120,18 @@ class load():
             return rfdf
 
         except Exception as e:
-            self.logger.error(e.args[0])
+            self.logger.error(e.args[0] + '(StandardizeDataColumn)')
             raise
 
 
     def AddParseColumns(self, columnName, df, codebookDF):
         try:
             #pull column from code book
+            self.logger.info('{}: creating colDF (AddParseColumns)'.format(columnName))
             colDF = codebookDF[ (codebookDF.Field == columnName) & (codebookDF.Variable.notnull()) ]
             colDF = self.StandardizeCodebookColumn(colDF)
 
+            self.logger.info('{}: about to enter STandardizeDataColumn (AddParseColumns)'.format(columnName))
             df = self.StandardizeDataColumn(columnName, df)
 
             #Break out
@@ -133,8 +140,10 @@ class load():
             #Join new columns into response
             df = df.join(colDF.set_index('Variable'), on=columnName, how='left')
             # Rename columns
+            self.logger.info('{}: renaming column in dataframe (AddParseColumns)'.format(columnName))
             df = df.rename(columns = {'Value':columnName+'Value','Field':columnName+'Field','Variable':columnName+'Variable'})
             # Drop column
+            self.logger.info('{}: dropping  Field column from data frame (AddParseColumns)'.format(columnName))
             df = df.drop(columnName+'Field', axis=1)
 
             return df
