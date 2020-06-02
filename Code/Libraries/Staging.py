@@ -4,6 +4,8 @@ from itertools import product
 from Libraries.Logging import SurveyLogging
 from Libraries.Database import SurveyDatabase
 from Libraries.Configuration import SurveyConfigReader
+from shapely.wkt import loads
+from geopandas import GeoDataFrame
 
 
 class load():
@@ -156,40 +158,66 @@ class load():
             self.logger.error(e.args[0])
             raise
 
-    def add_stateplane_wkt(rfdf):
+    def add_stateplane_wkt(self, rfdf):
         """
         Chenge this to work from a dataframe instead of reading from SQL
         """
-        def reproject_column_wgs84_to_stateplane(in_pk, in_col):
-            IN_SRID = 'EPSG:4326'
-            OUT_SRID = '2285'
-            geometry = [loads(x) for x in rfdf[in_col]]
-            gdf_in = GeoDataFrame(rfdf[in_pk], geometry=geometry, crs='EPSG:' + IN_SRID)
-            gdf_reproj = gdf_in.to_crs('epsg:' + OUT_SRID)
-            wkt_reproj = [dumps(x) for x in gdf_reproj.geometry]
-            if 'wgs84' in in_col:
-                wkt_field_header = in_col.replace('wgs84', 'OUT_SRID')
-            else:
-                wkt_field_header = in_col + '_' + OUT_SRID
-            gdf_reproj[wkt_field_header] = wkt_reproj
-            return gdf_reproj[[in_pk, wkt_field_header]]
+        def reproject_column_wgs84_to_stateplane(rfdf, in_pk, in_col):
+            try: 
+                self.logger.info("starting reproject_column_wgs84_to_stateplane")
+                IN_SRID = '4326'
+                self.logger.info("OUT_SRID")
+                OUT_SRID = '2285'
+                self.logger.info("geometry...")
+                print(rfdf[in_col].dtype)
+                geometry = [loads(x) for x in rfdf[in_col]]
+                print(type(geometry[2]))
+                self.logger.info("gdf_in = ...")
+                gdf_in = GeoDataFrame(rfdf[in_pk], geometry=geometry, crs='EPSG:' + IN_SRID)
+                self.logger.info('type(gdf_in) = '+ str(type(gdf_in)))
+                self.logger.info('type(geometry[2]) = '+ str(type(geometry[2])))
+                self.logger.info('type(gdf_in) = '+ str(type(gdf_in)))
+                for t in gdf_in.dtypes():
+                    print(str(t))
+                self.logger.info("gdf_reproj = ...")
+                #gdf_reproj = gdf_in.to_crs(epsg = int(OUT_SRID))
+                gdf_reproj = gdf_in.to_crs(epsg=2285)
+                self.logger.info("wkt_reproj = ...")
+                wkt_reproj = [dumps(x) for x in gdf_reproj.geometry]
+                if 'wgs84' in in_col:
+                    wkt_field_header = in_col.replace('wgs84', OUT_SRID)
+                else:
+                    wkt_field_header = in_col + '_' + OUT_SRID
+                gdf_reproj[wkt_field_header] = wkt_reproj
+                return gdf_reproj[[in_pk, wkt_field_header]]
+            except Exception as e:
+                self.logger.error(e.args[0])
+                raise
 
 
         try:
+            self.logger.info("starting add_stateplane_wkt()")
             if self.responseClass == 'household':
-                rfdf['final_home_wgs84'] = 'Point(' + rfdf['final_home_lng'].astype(str) + ' ' + df['final_home_lat'].asttype(str) + ')'
-                rfdf['prev_home_wgs84'] = 'Point(' + rfdf['prev_home_lng'].astype(str) + ' ' + df['prev_home_lat'].asttype(str) + ')'
-                df_final_home = reproject_column_wgs84_to_stateplane(hhid, final_home_wgs84)
-                df_prev_home = reproject_column_wgs84_to_stateplane(hhid, prev_home_wgs84)
+                self.logger.info("final_home_wgs84")
+                rfdf['final_home_wgs84'] = 'Point(' + rfdf['final_home_lng'].astype(str) + ' ' + rfdf['final_home_lat'].astype(str) + ')'
+                self.logger.info("prev_home_wgs84")
+                rfdf['prev_home_wgs84'] = 'Point(' + rfdf['prev_home_lng'].astype(str) + ' ' + rfdf['prev_home_lat'].astype(str) + ')'
+                self.logger.info("df_final_home")
+                df_final_home = reproject_column_wgs84_to_stateplane(rfdf, 'hhid', 'final_home_wgs84')
+                self.logger.info("df_prev_home")
+                df_prev_home = reproject_column_wgs84_to_stateplane(rfdf, 'hhid', 'prev_home_wgs84')
+                self.logger.info("rfdf1")
                 rfdf = pd.merge(rfdf, df_final_home, on='hhid')
+                self.logger.info("rfdf2")
                 rfdf = pd.merge(rfdf, df_prev_home, on='hhid')
             elif self.responseClass == 'person':
-                rfdf['school_wgs84'] = 'Point(' + rfdf['school_loc_lng'].astype(str) + ' ' + df['school_loc_lat'].asttype(str) + ')'
-                rfdf['work_wgs84'] = 'Point(' + rfdf['work_lng'].astype(str) + ' ' + df['work_lat'].asttype(str) + ')'
-                rfdf['prev_work_wgs84'] = 'Point(' + rfdf['prev_work_lng'].astype(str) + ' ' + df['prev_work_lat'].asttype(str) + ')'
+                rfdf['school_wgs84'] = 'Point(' + rfdf['school_loc_lng'].astype(str) + ' ' + rfdf['school_loc_lat'].astype(str) + ')'
+                rfdf['work_wgs84'] = 'Point(' + rfdf['work_lng'].astype(str) + ' ' + rfdf['work_lat'].astype(str) + ')'
+                rfdf['prev_work_wgs84'] = 'Point(' + rfdf['prev_work_lng'].astype(str) + ' ' + rfdf['prev_work_lat'].astype(str) + ')'
             elif self.responseClass == 'trip':
-                rfdf['origin_wgs84'] = 'Point(' + rfdf['origin_lng'].astype(str) + ' ' + df['origin_lat'].asttype(str) + ')'
-                rfdf['dest_wgs84'] = 'Point(' + rfdf['dest_lng'].astype(str) + ' ' + df['dest_lat'].asttype(str) + ')'
+                rfdf['origin_wgs84'] = 'Point(' + rfdf['origin_lng'].astype(str) + ' ' + rfdf['origin_lat'].astype(str) + ')'
+                rfdf['dest_wgs84'] = 'Point(' + rfdf['dest_lng'].astype(str) + ' ' + rfdf['dest_lat'].astype(str) + ')'
+            self.logger.info("finishing add_stateplane_wkt()")
             return rfdf
 
         except Exception as e:
@@ -293,10 +321,11 @@ class load2019(load):
                         index_col=None,
                         header=header_row,
                         encoding='ISO-8859-1')
+                    self.logger.info('finished reading survey file')
                 else:
                     raise Exception('Unknown Format Type')
 
-                rfdf = add_stateplane_wkt(rfdf)
+                rfdf = self.add_stateplane_wkt(rfdf)
 
                 self.logger.info("Starting insertion of response file data into staging table.")
                 db.createStagingTableFromDF(rfdf,'Survey_file_'+str(self.year))
