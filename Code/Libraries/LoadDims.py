@@ -57,7 +57,8 @@ class load():
         try:
             #Foreach column in cbdf
             for header in list(rfdf.columns.values):
-                rfdf = self.AddParseColumns(header, rfdf, cbdf)
+                if header != 'sample_segment' and '_puma' not in header and header != 'year':
+                    rfdf = self.AddParseColumns(header, rfdf, cbdf)
 
             with SurveyDatabase.surveyDatabase() as db:
                 db.createStagingTableFromDF(rfdf,'response_and_code_'+self.responseClass+'_'+str(self.year))
@@ -131,7 +132,7 @@ class load():
             colDF = codebookDF[ (codebookDF.Field == columnName) & (codebookDF.Variable.notnull()) ]
             colDF = self.StandardizeCodebookColumn(colDF)
 
-            self.logger.info('{}: about to enter STandardizeDataColumn (AddParseColumns)'.format(columnName))
+            self.logger.info('{}: about to enter StandardizeDataColumn (AddParseColumns)'.format(columnName))
             df = self.StandardizeDataColumn(columnName, df)
 
             #Break out
@@ -187,7 +188,8 @@ class load2019(load):
     def TransformResponseAndCodeTable(self, rfdf, cbdf):
         #Foreach column in cbdf
         for header in list(rfdf.columns.values):
-            rfdf = self.AddParseColumns(header, rfdf, cbdf)
+            if '_puma10' not in header:
+                rfdf = self.AddParseColumns(header, rfdf, cbdf)
 
         with SurveyDatabase.surveyDatabase() as db:
             db.createStagingTableFromDF(rfdf,'response_and_code_' + self.responseClass +'_'+str(self.year))
