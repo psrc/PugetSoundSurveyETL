@@ -26,24 +26,28 @@ class load():
             self.logger.info("Starting staging response file")
             with SurveyDatabase.surveyDatabase() as db:
 
-                #read in where the header row starts
-                header_row = int(self.config.get('Response',str(self.year)+self.responseClass+"header"))
-                self.logger.info("Setting header row to: " + str(header_row))
-                sheet_name = self.config.get('Response', str(self.year)+self.responseClass+"sheet")
-                self.logger.info("Setting sheet name to: " + sheet_name)
 
                 self.logger.info("Reading in file format for " + str(self.year))
                 readFormat = self.config.get('Response',str(self.year)+self.responseClass+"format")
 
                 if readFormat == 'excel':
+                    #read in where the header row starts
+                    header_row = int(self.config.get('Response',str(self.year)+self.responseClass+"header"))
+                    self.logger.info("Setting header row to: " + str(header_row))
+                    sheet_name = self.config.get('Response', str(self.year)+self.responseClass+"sheet")
+                    self.logger.info("Setting sheet name to: " + sheet_name)
                     response_sheet_name = self.config.get('Response', str(self.year)+self.responseClass+"sheet")
                     self.logger.info("Setting sheet name to: " + response_sheet_name)
                     self.logger.info('Reading in survey excel file from: ' + self.responseFile)
                     rfdf = pd.read_excel(self.responseFile, index_col=None, header=header_row, sheet_name=response_sheet_name)
                 elif readFormat == 'database':
                     self.logger.info('Reading in survey from database table')
-                    rfdf = db.executeAndPandas("SELECT * FROM [stg].["+self.responseFile+"]")
+                    response_query = self.create_response_query()
+                    rfdf = db.executeAndPandas(response_query)
                 elif readFormat == 'csv':
+                    #read in where the header row starts
+                    header_row = int(self.config.get('Response',str(self.year)+self.responseClass+"header"))
+                    self.logger.info("Setting header row to: " + str(header_row))
                     self.logger.info('Reading in survey csv file from: ' + self.responseFile)
                     rfdf = pd.read_csv(self.responseFile, index_col=None, header=header_row)
                 else:
@@ -57,6 +61,43 @@ class load():
         except Exception as e:
             self.logger.error(e.args[0])
             raise
+
+    def create_response_query(self):
+        '''
+        create a query that selects all columns from self.responseFile,
+        but which transforms columns of type GEOMETRY to 
+        '''
+        try:
+            with SurveyDatabase.surveyDatabase() as db:
+                table_name = self.responseFile
+                col_sql = "SELECT COLUMN_NAME FROM {} WHERE TABLE_NAME = '{}' \
+                    and COLUMN_NAME <> 'hhmember12' \
+                    and DATA_TYPE not in ('GEOGRAPHY', 'GEOMETRY')".format(
+                    '[hhts_cleaning].INFORMATION_SCHEMA.COLUMNS',
+                    table_name)
+                col_df = db.executeAndPandas(col_sql)
+                l = []
+                for n in col_df.COLUMN_NAME:
+                    l.append(n) if n not in ['GDB_GEOMATTR_DATA', 'SDE_STATE_ID'] else l
+                geog_col_sql = "SELECT COLUMN_NAME FROM {} WHERE TABLE_NAME = '{}' \
+                    and DATA_TYPE in ('GEOGRAPHY', 'GEOMETRY')".format(
+                    '[hhts_cleaning].INFORMATION_SCHEMA.COLUMNS',
+                    table_name)
+                geog_col_df = db.executeAndPandas(geog_col_sql)
+                for n in geog_col_df.COLUMN_NAME:
+                    col_selector = n + '.ToString() as ' + n + '_str'
+                    l.append(col_selector) if n not in ['GDB_GEOMATTR_DATA', 'SDE_STATE_ID'] else l
+                columns_clause = ','.join(l)
+                response_query = 'select {} from [hhts_cleaning].[HHSurvey].{}'.format(
+                    columns_clause,
+                    table_name
+                )
+            return response_query
+
+        except Exception as e:
+            self.logger.error(e.args[0])
+            raise
+
 
     def ReproduceModeChoiceSets(self, cbdf):
         try:
@@ -149,11 +190,14 @@ class load():
                 self.logger.info("Starting transformation of codebook.")
                 codebookDF = codebookDF.replace('Valid Values',pd.np.nan)
                 codebookDF = codebookDF.replace('Labeled Values',pd.np.nan)
-                codebookDF[['order','Field']] = codebookDF[['order','Field']].fillna(method='ffill')
+                #codebookDF[['order','Field']] = codebookDF[['order','Field']].fillna(method='ffill')
+                #codebookDF.columns = ['Field', 'Variable', 'Value', 'field_a', 'field_b']
+                codebookDF.columns = ['Field', 'Variable', 'Value']
                 if (self.year == '2017' and self.responseClass == 'trip'):
                     codebookDF = self.AddSpecialCodeBookRows(codebookDF)
                 self.cbdf = codebookDF[['Field','Variable','Value']]
                 self.logger.info("Finished transformation of codebook.")
+
         except Exception as e:
             self.logger.error(e.args[0])
             raise

@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "args": ["2015","C:\\Users\\WilliamAndrus\\Documents\\GitHub\\PugetSoundSurveyETL\\PersonData\\2015-pr2-hhsurvey-person.xlsx", "C:\\Users\\WilliamAndrus\\Documents\\GitHub\\PugetSoundSurveyETL\\CodeBooks\\2015-pr2-hhsurvey-Codebook.xlsx"]
-        }
+            "args": ["2021", "Day", "Day", "J:\\Projects\\Surveys\\HHTravel\\Survey2021\\Data\\data_from_rsg_20210803\\PSRC_2021_HTS_Combined_Codebook.xlsx"
+            ]}
     ]
 }

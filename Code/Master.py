@@ -85,7 +85,7 @@ if __name__ == '__main__' :
         else:
             fact = LoadFacts.load(year, responseClass)
 
-        fact.LoadFacts(rfdf)
+        # fact.LoadFacts(rfdf)
         #logger.info("Start processing PersonFact")
         #personFactDF = rfdf[['personid','hhid','numtrips','diary_duration_minutes']]
         #fact.ProcessPersonFactTable(personFactDF)
